@@ -1,11 +1,14 @@
 Package: ppsr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Predictive Power Score
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Paul", "van der Laken", email = "paulvanderlaken@gmail.com", role = c("aut", "cre"))
+Description: The PPS is an asymmetric, data-type-agnostic score that can detect linear or non-linear relationships between two columns. 
+    The score ranges from 0 (no predictive power) to 1 (perfect predictive power). 
+    It can be used as an alternative to the correlation (matrix).
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    testthat (>= 2.0.0)
+Config/testthat/edition: 2
