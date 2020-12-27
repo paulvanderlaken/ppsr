@@ -20,4 +20,4 @@ Imports:
     parsnip (>= 0.1.4),
     tidyr (>= 1.1.2),
     tidyselect (>= 1.1.0),
-    magrittr (>= 2.0.1)
+    rpart (>= 4.1.15)
