@@ -5,8 +5,6 @@
 #' (no predictive power) to 1 (perfect predictive power). It can be used as an
 #' alternative to the correlation (matrix).
 #'
-#' @section ppsr functions:
-#'
 #' @docType package
 #' @name ppsr
 NULL
