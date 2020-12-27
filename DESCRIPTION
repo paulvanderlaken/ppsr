@@ -11,12 +11,13 @@ Description: The PPS is an asymmetric, data-type-agnostic score that can detect
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports:
-    ggplot2
-    parsnip
-    tidyr
-    tidyselect
 Suggests: 
     testthat (>= 2.0.0)
 Config/testthat/edition: 2
 RoxygenNote: 7.1.1
+Imports: 
+    ggplot2 (>= 3.3.2),
+    parsnip (>= 0.1.4),
+    tidyr (>= 1.1.2),
+    tidyselect (>= 1.1.0),
+    magrittr (>= 2.0.1)
