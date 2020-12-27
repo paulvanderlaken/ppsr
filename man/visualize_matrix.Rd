@@ -17,4 +17,6 @@ Visualize the PPS matrix
 }
 \examples{
 visualize_matrix(mtcars)
+
+visualize_matrix(iris)
 }

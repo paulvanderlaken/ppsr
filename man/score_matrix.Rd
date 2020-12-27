@@ -2,7 +2,9 @@
 % Please edit documentation in R/score.R
 \name{score_matrix}
 \alias{score_matrix}
-\title{Calculate predictive power score matrix}
+\title{Calculate predictive power score matrix
+Iterates through the columns of the dataset, calculating the predictive power
+score for every possible combination of \code{x} and \code{y}.}
 \usage{
 score_matrix(df, ...)
 }
@@ -19,4 +21,6 @@ Note that the targets are on the rows, and the features on the columns.
 }
 \examples{
 score_matrix(mtcars)
+
+score_matrix(iris)
 }

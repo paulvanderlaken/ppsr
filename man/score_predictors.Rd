@@ -2,7 +2,9 @@
 % Please edit documentation in R/score.R
 \name{score_predictors}
 \alias{score_predictors}
-\title{Calculate predictive power scores for y}
+\title{Calculate predictive power scores for y
+Calcuates the predictive power scores for the specified \code{y} variable
+using every column in the dataset as \code{x}, including itself.}
 \usage{
 score_predictors(df, y, ...)
 }
@@ -18,7 +20,11 @@ list of float scalars, representing predictive power scores
 }
 \description{
 Calculate predictive power scores for y
+Calcuates the predictive power scores for the specified \code{y} variable
+using every column in the dataset as \code{x}, including itself.
 }
 \examples{
 score_predictors(df = mtcars, y = 'mpg')
+
+score_predictors(df = iris, y = 'Species')
 }

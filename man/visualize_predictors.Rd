@@ -19,4 +19,6 @@ Visualize the PPS of all predictors of a target
 }
 \examples{
 visualize_predictors(mtcars, 'mpg')
+
+visualize_predictors(iris, 'Species')
 }

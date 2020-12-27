@@ -4,7 +4,12 @@
 \alias{score}
 \title{Calculate predictive power score for x on y}
 \usage{
-score(x = mtcars$mpg, y = mtcars$cyl, algorithm = "tree", metric = mae)
+score(
+  x,
+  y,
+  algorithm = "tree",
+  eval_funs = list(regression = eval_mae, classification = eval_f1_score)
+)
 }
 \arguments{
 \item{x}{any type of vector of predictor values}
@@ -13,7 +18,8 @@ score(x = mtcars$mpg, y = mtcars$cyl, algorithm = "tree", metric = mae)
 
 \item{algorithm}{character scalar}
 
-\item{metric}{model evaluation function that takes arguments \code{y} and \code{yhat} and returns a numeric scalar}
+\item{eval_funs}{named list of \code{eval_*} functions used for
+regression and classification problems}
 }
 \value{
 numeric scalar representing predictive power score
@@ -22,5 +28,7 @@ numeric scalar representing predictive power score
 Calculate predictive power score for x on y
 }
 \examples{
-score(x = mtcars$mpg, y = mtcars$cyl, algorithm = 'tree', metric = mae)
+score(x = mtcars$mpg, y = mtcars$cyl)
+
+score(x = iris$Petal.Length, y = iris$Species)
 }
