@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' score(x = mtcars$mpg, y = mtcars$cyl, algorithm = 'tree', metric = mae)
-score = function(x = mtcars$mpg, y = mtcars$cyl, algorithm = 'tree', metric = mae) {
+score = function(x, y, algorithm = 'tree', metric = mae) {
   # perform checks
   if (is_id(x) | is_id(y)) {
     return(0) # an ID variable has no predictive power
