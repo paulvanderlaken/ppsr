@@ -1,3 +1,6 @@
+# solve warnings: no visible binding for global variable
+.x <- .y <- NULL
+
 #' Visualize the PPS of all predictors of a target
 #'
 #' @inheritParams score_predictors
@@ -8,6 +11,8 @@
 #'
 #' @examples
 #' visualize_predictors(mtcars, 'mpg')
+#'
+#' visualize_predictors(iris, 'Species')
 visualize_predictors = function(df, y) {
   predictors = score_predictors(df, y)
   df_scores = as.data.frame(predictors)
