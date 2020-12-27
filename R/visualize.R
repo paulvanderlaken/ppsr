@@ -48,6 +48,8 @@ visualize_predictors = function(df, y) {
 #'
 #' @examples
 #' visualize_matrix(mtcars)
+#'
+#' visualize_matrix(iris)
 visualize_matrix = function(df) {
   mtrx = score_matrix(df)
   df_scores = as.data.frame(mtrx)
