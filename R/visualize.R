@@ -25,7 +25,7 @@ visualize_predictors = function(df, y) {
 
   # visualize as heatmap
   p =
-    ggplot2::ggplot(df_scores_long, ggplot2::aes(x = score, y = reorder(.x, score))) +
+    ggplot2::ggplot(df_scores_long, ggplot2::aes(x = score, y = stats::reorder(.x, score))) +
     ggplot2::geom_col(ggplot2::aes(fill = score)) +
     ggplot2::geom_text(ggplot2::aes(label = format_score(score)), hjust = 0) +
     ggplot2::scale_y_discrete(name = 'feature') +

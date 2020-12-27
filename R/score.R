@@ -26,7 +26,7 @@ score = function(x = mtcars$mpg, y = mtcars$cyl, algorithm = 'tree', metric = ma
   df = data.frame(x = x, y = y)
 
   # drop any rows where target or predictor is missing
-  df = df[complete.cases(df), ]
+  df = df[stats::complete.cases(df), ]
 
   # specify and set up statistical model
   if (algorithm == 'tree') {
@@ -40,7 +40,7 @@ score = function(x = mtcars$mpg, y = mtcars$cyl, algorithm = 'tree', metric = ma
 
   # fit the model and predict the values
   model = parsnip::fit(model, formula = y ~ x, data = df)
-  yhat = predict(model, new_data = df)[[1]]
+  yhat = stats::predict(model, new_data = df)[[1]]
   # TODO implement cross-validation
 
   # evaluate predictive performance performance
