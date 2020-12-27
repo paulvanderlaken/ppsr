@@ -26,8 +26,8 @@ visualize_predictors = function(df, y) {
   # visualize as heatmap
   p =
     ggplot2::ggplot(df_scores_long, ggplot2::aes(x = score, y = reorder(.x, score))) +
-    ggplot2::geom_col(aes(fill = score)) +
-    ggplot2::geom_text(aes(label = format_score(score)), hjust = 0) +
+    ggplot2::geom_col(ggplot2::aes(fill = score)) +
+    ggplot2::geom_text(ggplot2::aes(label = format_score(score)), hjust = 0) +
     ggplot2::scale_y_discrete(name = 'feature') +
     ggplot2::scale_fill_gradient(low = 'white', high = '#08306B') +
     ggplot2::theme_minimal()
@@ -59,8 +59,8 @@ visualize_matrix = function(df) {
                                        values_to = 'score')
   p =
     ggplot2::ggplot(df_scores_long, ggplot2::aes(x = .x, y = .y)) +
-    ggplot2::geom_tile(aes(fill = score)) +
-    ggplot2::geom_text(aes(label = format_score(score))) +
+    ggplot2::geom_tile(ggplot2::aes(fill = score)) +
+    ggplot2::geom_text(ggplot2::aes(label = format_score(score))) +
     ggplot2::scale_x_discrete(limits = features, name = 'feature') +
     ggplot2::scale_y_discrete(limits = rev(features), name = 'target') +
     ggplot2::scale_fill_gradient(low = 'white', high = '#08306B') +
