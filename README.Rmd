@@ -80,11 +80,11 @@ functions to help you visualize your PPS using `ggplot2`:
 * `visualize_matrix()` - producing a heatmap of all X-Y PPS
 
 Examples:
-```{r}
+```{r, PPS barplot}
 ppsr::visualize_predictors(df = iris, y = 'Species')
 ```
 
-```{r}
+```{r, PPS heatmap}
 ppsr::visualize_matrix(df = iris)
 ```
 
