@@ -34,7 +34,8 @@ visualize_predictors = function(df, y) {
     ggplot2::geom_col(ggplot2::aes(fill = score)) +
     ggplot2::geom_text(ggplot2::aes(label = format_score(score)), hjust = 0) +
     ggplot2::scale_y_discrete(name = 'feature') +
-    ggplot2::scale_fill_gradient(low = 'white', high = '#08306B') +
+    ggplot2::scale_fill_gradient(low = 'white', high = '#08306B', limits = c(0, 1)) +
+    ggplot2::expand_limits(fill = c(0, 1)) +
     ggplot2::theme_minimal()
   return(p)
 }
@@ -70,7 +71,8 @@ visualize_matrix = function(df) {
     ggplot2::geom_text(ggplot2::aes(label = format_score(score))) +
     ggplot2::scale_x_discrete(limits = features, name = 'feature') +
     ggplot2::scale_y_discrete(limits = rev(features), name = 'target') +
-    ggplot2::scale_fill_gradient(low = 'white', high = '#08306B') +
+    ggplot2::scale_fill_gradient(low = 'white', high = '#08306B', limits = c(0, 1)) +
+    ggplot2::expand_limits(fill = c(0, 1)) +
     ggplot2::theme_minimal()
   return(p)
 }
