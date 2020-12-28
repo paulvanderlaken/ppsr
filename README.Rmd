@@ -60,15 +60,15 @@ and `X` and `Y` represent all features/targets in a given dataset.
 
 Examples:
 ```{r}
-score(x = iris$Sepal.Length, y = iris$Sepal.Width)
+ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
 ```
 
 ```{r}
-score_predictors(df = iris, y = 'Species')
+ppsr::score_predictors(df = iris, y = 'Species')
 ```
 
 ```{r}
-score_matrix(df = iris)
+ppsr::score_matrix(df = iris)
 ```
 
 
@@ -81,11 +81,11 @@ functions to help you visualize your PPS using `ggplot2`:
 
 Examples:
 ```{r}
-visualize_predictors(df = iris, y = 'Species')
+ppsr::visualize_predictors(df = iris, y = 'Species')
 ```
 
 ```{r}
-visualize_matrix(df = iris)
+ppsr::visualize_matrix(df = iris)
 ```
 
 
