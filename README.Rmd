@@ -92,8 +92,7 @@ ppsr::visualize_matrix(df = iris)
 
 ## Open issues & development
 PPS is a relatively young concept, and likewise the `ppsr` package is still under development. 
-The current package was built in only a few hours and will likely contain bugs and/or inefficiencies.
-If you have any improvements, please raise an issue or submit a pull request. 
+If you spot any bugs or potential improvements, please raise an issue or submit a pull request. 
 
 On the developmental agenda are currently:
 
