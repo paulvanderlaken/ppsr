@@ -35,7 +35,7 @@ score = function(x,
   df = df[stats::complete.cases(df), ]
 
   # determine type of model we are dealing with
-  mode = ifelse(is.numeric(y), 'regression', 'classification')
+  mode = ifelse(is.numeric(y) & !is_binary(y), 'regression', 'classification')
 
   # specify and set up statistical model
   # TODO implement other models
