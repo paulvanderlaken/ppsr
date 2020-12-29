@@ -21,7 +21,7 @@ detect linear or non-linear relationships between two columns.
 The score ranges from 0 (no predictive power) to 1 (perfect predictive power). 
 It can be used as an alternative to the correlation (matrix).
 
-Read more about the (dis)advantages of the Predictive Power Score in [this blog post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598)
+Read more about the (dis)advantages of the Predictive Power Score in [this blog post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598).
 
 
 ## Installation
@@ -33,18 +33,18 @@ devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 ```
 
 ## Computing PPS
-There is not the one and only way to calculate the predictive power score. 
-In fact, there are many possible ways to calculate a PPS that satisfies the definition mentioned before. 
 You can think of the predictive power score as a framework for a family of scores.
+There is not one single best way to calculate a predictive power score. 
+In fact, there are many possible ways to calculate a PPS that satisfy the definition mentioned before. 
 
 Currently, the `ppsr` package calculates PPS by default:
 
-* Using the decision tree implementation of the `rpart` package, wrapped by `parsnip`
+* Using the default decision tree implementation of the `rpart` package, wrapped by `parsnip`
 * Using 0 cross-validations
-* Using F1 scores to evaluate classification models
-* Using the modal or random classes as a naive benchmark for classification models
-* Using MAE to evaluate regression models
-* Using the mean `y` value as a naive benchmark for regression models
+* Using F1 scores to evaluate classification models. 
+Scores are normalized relatively to a naive benchmark consisting of predicting the modal or random `y` classes
+* Using MAE to evaluate regression models. 
+Scores are normalized using relatively to a naive benchmark of predicting the mean `y` value
 
 
 ## Usage
@@ -93,7 +93,7 @@ ppsr::visualize_matrix(df = iris)
 ## Open issues & development
 PPS is a relatively young concept, and likewise the `ppsr` package is still under development. 
 The current package was built in only a few hours and will likely contain bugs and/or inefficiencies.
-If you have any improvements, please raise an issue. 
+If you have any improvements, please raise an issue or submit a pull request. 
 
 On the developmental agenda are currently:
 
