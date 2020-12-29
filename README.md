@@ -70,16 +70,16 @@ ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
 #> $Sepal.Length
-#> [1] 0.6321187
+#> [1] 0.6142833
 #> 
 #> $Sepal.Width
-#> [1] 0.372417
+#> [1] 0.4014296
 #> 
 #> $Petal.Length
-#> [1] 0.9279138
+#> [1] 0.9299341
 #> 
 #> $Petal.Width
-#> [1] 0.9419077
+#> [1] 0.9399976
 #> 
 #> $Species
 #> [1] 1
@@ -92,7 +92,7 @@ ppsr::score_matrix(df = iris)
 #> Sepal.Width     0.1822185   1.0000000    0.3000489   0.3174639 0.2237120
 #> Petal.Length    0.6687765   0.2815605    1.0000000   0.8072795 0.7972117
 #> Petal.Width     0.5436489   0.2301854    0.7732164   1.0000000 0.7630875
-#> Species         0.5712140   0.4646447    0.9333353   0.9367246 1.0000000
+#> Species         0.6142833   0.4014296    0.9299341   0.9399976 1.0000000
 ```
 
 ## Visualizing PPS
