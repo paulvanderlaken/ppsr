@@ -34,8 +34,12 @@ score = function(x,
   # drop any rows where target or predictor is missing
   df = df[stats::complete.cases(df), ]
 
+  # turn numerical binary variables into factors
+  cols_binary_numeric = lapply(df, is_binary_numeric)
+  df[cols_binary_numeric] = lapply(df[cols_binary_numeric], as.factor)
+
   # determine type of model we are dealing with
-  mode = ifelse(is.numeric(y) & !is_binary(y), 'regression', 'classification')
+  mode = ifelse(is.numeric(y), 'regression', 'classification')
 
   # specify and set up statistical model
   # TODO implement other models
