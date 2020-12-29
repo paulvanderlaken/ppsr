@@ -1,6 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/paulvanderlaken/ppsr/workflows/R-CMD-check/badge.svg)](https://github.com/paulvanderlaken/ppsr/actions)
+<!-- badges: end -->
+
 # `ppsr` - Predictive Power Score
 
 `ppsr` is the R implementation of [8080labs Predictive Power
@@ -65,16 +70,16 @@ ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
 #> $Sepal.Length
-#> [1] 0.5393479
+#> [1] 0.6438021
 #> 
 #> $Sepal.Width
-#> [1] 0.4413768
+#> [1] 0.3486193
 #> 
 #> $Petal.Length
-#> [1] 0.9209851
+#> [1] 0.9345534
 #> 
 #> $Petal.Width
-#> [1] 0.9381262
+#> [1] 0.9446095
 #> 
 #> $Species
 #> [1] 1
@@ -87,7 +92,7 @@ ppsr::score_matrix(df = iris)
 #> Sepal.Width     0.1822185   1.0000000    0.3000489   0.3174639 0.2237120
 #> Petal.Length    0.6687765   0.2815605    1.0000000   0.8072795 0.7972117
 #> Petal.Width     0.5436489   0.2301854    0.7732164   1.0000000 0.7630875
-#> Species         0.6225711   0.4401083    0.9236485   0.9325861 1.0000000
+#> Species         0.5239630   0.4911948    0.9367045   0.9443048 1.0000000
 ```
 
 ## Visualizing PPS
@@ -104,13 +109,13 @@ Examples:
 ppsr::visualize_predictors(df = iris, y = 'Species')
 ```
 
-![](README-PPS%20barplot-1.png)<!-- -->
+![](man/README/README-PPS%20barplot-1.png)<!-- -->
 
 ``` r
 ppsr::visualize_matrix(df = iris)
 ```
 
-![](README-PPS%20heatmap-1.png)<!-- -->
+![](man/README/README-PPS%20heatmap-1.png)<!-- -->
 
 ## Open issues & development
 
