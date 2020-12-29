@@ -1,10 +1,15 @@
 # solve warnings: no visible binding for global variable
 .x <- .y <- NULL
 
+default_color = function() {
+  return('#08306B')
+}
+
 #' Visualize the PPS of all predictors of a target
 #'
 #' @inheritParams score_predictors
 #' @param y string, column name of target variable
+#' @param color color used for highlighting high PPS
 #'
 #' @return ggplot2 vertical barplot visualization
 #' @export
@@ -13,7 +18,7 @@
 #' visualize_predictors(mtcars, 'mpg')
 #'
 #' visualize_predictors(iris, 'Species')
-visualize_predictors = function(df, y) {
+visualize_predictors = function(df, y, color = default_color) {
   predictors = score_predictors(df, y)
   df_scores = as.data.frame(predictors)
 
@@ -34,7 +39,7 @@ visualize_predictors = function(df, y) {
     ggplot2::geom_col(ggplot2::aes(fill = score)) +
     ggplot2::geom_text(ggplot2::aes(label = format_score(score)), hjust = 0) +
     ggplot2::scale_y_discrete(name = 'feature') +
-    ggplot2::scale_fill_gradient(low = 'white', high = '#08306B', limits = c(0, 1)) +
+    ggplot2::scale_fill_gradient(low = 'white', high = color, limits = c(0, 1)) +
     ggplot2::expand_limits(fill = c(0, 1)) +
     ggplot2::theme_minimal()
   return(p)
@@ -43,6 +48,7 @@ visualize_predictors = function(df, y) {
 #' Visualize the PPS matrix
 #'
 #' @param df data.frame
+#' @param color color used for highlighting high PPS
 #'
 #' @return ggplot2 heatmap visualization
 #' @export
@@ -51,7 +57,7 @@ visualize_predictors = function(df, y) {
 #' visualize_matrix(mtcars)
 #'
 #' visualize_matrix(iris)
-visualize_matrix = function(df) {
+visualize_matrix = function(df, color = default_color()) {
   mtrx = score_matrix(df)
   df_scores = as.data.frame(mtrx)
 
