@@ -1,10 +1,6 @@
 # solve warnings: no visible binding for global variable
 .x <- .y <- NULL
 
-default_color = function() {
-  return('#08306B')
-}
-
 #' Visualize the PPS of all predictors of a target
 #'
 #' @inheritParams score_predictors
@@ -18,7 +14,7 @@ default_color = function() {
 #' visualize_predictors(mtcars, 'mpg')
 #'
 #' visualize_predictors(iris, 'Species')
-visualize_predictors = function(df, y, color = default_color) {
+visualize_predictors = function(df, y, color = '#08306B') {
   predictors = score_predictors(df, y)
   df_scores = as.data.frame(predictors)
 
@@ -57,7 +53,7 @@ visualize_predictors = function(df, y, color = default_color) {
 #' visualize_matrix(mtcars)
 #'
 #' visualize_matrix(iris)
-visualize_matrix = function(df, color = default_color()) {
+visualize_matrix = function(df, color = '#08306B') {
   mtrx = score_matrix(df)
   df_scores = as.data.frame(mtrx)
 
