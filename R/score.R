@@ -17,7 +17,19 @@ score = function(x,
                  y,
                  algorithm = 'tree',
                  eval_funs = list('regression' = eval_mae, 'classification' = eval_weighted_f1_score)) {
+  ## remove all missings
+  is_any_missing = is.na(x) | is.na(y)
+  is_complete = !is_any_missing
+  x = x[is_complete]
+  y = y[is_complete]
+
+
   ## perform checks
+  # if there's no data left, there's no predictive power
+  if (sum(is_complete) == 0) {
+    return(0)
+  }
+
   # an ID variable has no predictive power
   if (is_id(x) | is_id(y)) {
     return(0)
@@ -40,9 +52,6 @@ score = function(x,
   ## prepare data
   # store predictor and target in data frame
   df = data.frame(x = x, y = y)
-
-  # drop any rows where target or predictor is missing
-  df = df[stats::complete.cases(df), ]
 
   # determine type of model we are dealing with
   mode = ifelse(is.numeric(y), 'regression', 'classification')
