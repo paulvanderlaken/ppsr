@@ -8,6 +8,9 @@ is_constant = function(x) {
 }
 
 is_same = function(x, y) {
+  if(is.factor(x) & is.factor(y)) {
+    return(all(as.character(x) == as.character(y)))
+  }
   return(all(x == y))
 }
 
