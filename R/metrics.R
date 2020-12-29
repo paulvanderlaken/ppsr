@@ -89,7 +89,7 @@ eval_f1_score = function(y, yhat, positive.class = '1', average = 'weighted') {
     } else if (average == 'macro') {
       return(eval_macro_f1_score(y, yhat))
     }
-  } else if (is.integer(y) | is.logical(y)) {
+  } else if (is.integer(y) | is.logical(y) | is.factor(y)) {
     return(eval_binary_f1_score(y, yhat, positive.class))
   }
 }
