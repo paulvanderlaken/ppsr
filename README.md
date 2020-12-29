@@ -13,7 +13,7 @@ power). It can be used as an alternative to the correlation (matrix).
 
 Read more about the (dis)advantages of the Predictive Power Score in
 [this blog
-post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598)
+post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598).
 
 ## Installation
 
@@ -28,21 +28,21 @@ devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 
 ## Computing PPS
 
-There is not the one and only way to calculate the predictive power
-score. In fact, there are many possible ways to calculate a PPS that
-satisfies the definition mentioned before. You can think of the
-predictive power score as a framework for a family of scores.
+You can think of the predictive power score as a framework for a family
+of scores. There is not one single best way to calculate a predictive
+power score. In fact, there are many possible ways to calculate a PPS
+that satisfy the definition mentioned before.
 
 Currently, the `ppsr` package calculates PPS by default:
 
-  - Using the decision tree implementation of the `rpart` package,
-    wrapped by `parsnip`
+  - Using the default decision tree implementation of the `rpart`
+    package, wrapped by `parsnip`
   - Using 0 cross-validations
-  - Using F1 scores to evaluate classification models
-  - Using the modal or random classes as a naive benchmark for
-    classification models
-  - Using MAE to evaluate regression models
-  - Using the mean `y` value as a naive benchmark for regression models
+  - Using F1 scores to evaluate classification models. Scores are
+    normalized relatively to a naive benchmark consisting of predicting
+    the modal or random `y` classes
+  - Using MAE to evaluate regression models. Scores are normalized using
+    relatively to a naive benchmark of predicting the mean `y` value
 
 ## Usage
 
@@ -65,16 +65,16 @@ ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
 #> $Sepal.Length
-#> [1] 0.628054
+#> [1] 0.5393479
 #> 
 #> $Sepal.Width
-#> [1] 0.4262276
+#> [1] 0.4413768
 #> 
 #> $Petal.Length
-#> [1] 0.9357549
+#> [1] 0.9209851
 #> 
 #> $Petal.Width
-#> [1] 0.9389144
+#> [1] 0.9381262
 #> 
 #> $Species
 #> [1] 1
@@ -87,7 +87,7 @@ ppsr::score_matrix(df = iris)
 #> Sepal.Width     0.1822185   1.0000000    0.3000489   0.3174639 0.2237120
 #> Petal.Length    0.6687765   0.2815605    1.0000000   0.8072795 0.7972117
 #> Petal.Width     0.5436489   0.2301854    0.7732164   1.0000000 0.7630875
-#> Species         0.6013474   0.3393096    0.9338392   0.9349475 1.0000000
+#> Species         0.6225711   0.4401083    0.9236485   0.9325861 1.0000000
 ```
 
 ## Visualizing PPS
@@ -115,9 +115,8 @@ ppsr::visualize_matrix(df = iris)
 ## Open issues & development
 
 PPS is a relatively young concept, and likewise the `ppsr` package is
-still under development. The current package was built in only a few
-hours and will likely contain bugs and/or inefficiencies. If you have
-any improvements, please raise an issue.
+still under development. If you spot any bugs or potential improvements,
+please raise an issue or submit a pull request.
 
 On the developmental agenda are currently:
 
