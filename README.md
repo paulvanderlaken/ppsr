@@ -70,16 +70,16 @@ ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
 #> $Sepal.Length
-#> [1] 0.6438021
+#> [1] 0.6321187
 #> 
 #> $Sepal.Width
-#> [1] 0.3486193
+#> [1] 0.372417
 #> 
 #> $Petal.Length
-#> [1] 0.9345534
+#> [1] 0.9279138
 #> 
 #> $Petal.Width
-#> [1] 0.9446095
+#> [1] 0.9419077
 #> 
 #> $Species
 #> [1] 1
@@ -92,7 +92,7 @@ ppsr::score_matrix(df = iris)
 #> Sepal.Width     0.1822185   1.0000000    0.3000489   0.3174639 0.2237120
 #> Petal.Length    0.6687765   0.2815605    1.0000000   0.8072795 0.7972117
 #> Petal.Width     0.5436489   0.2301854    0.7732164   1.0000000 0.7630875
-#> Species         0.5239630   0.4911948    0.9367045   0.9443048 1.0000000
+#> Species         0.5712140   0.4646447    0.9333353   0.9367246 1.0000000
 ```
 
 ## Visualizing PPS
@@ -109,13 +109,13 @@ Examples:
 ppsr::visualize_predictors(df = iris, y = 'Species')
 ```
 
-![](man/README/README-PPS%20barplot-1.png)<!-- -->
+![](man/README/PPS-barplot-1.png)<!-- -->
 
 ``` r
 ppsr::visualize_matrix(df = iris)
 ```
 
-![](man/README/README-PPS%20heatmap-1.png)<!-- -->
+![](man/README/PPS-heatmap-1.png)<!-- -->
 
 ## Open issues & development
 

@@ -12,7 +12,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/README/README-"
+  fig.path = "man/README/"
 )
 ```
 
@@ -84,11 +84,11 @@ functions to help you visualize your PPS using `ggplot2`:
 * `visualize_matrix()` - producing a heatmap of all X-Y PPS
 
 Examples:
-```{r, PPS barplot}
+```{r, PPS-barplot}
 ppsr::visualize_predictors(df = iris, y = 'Species')
 ```
 
-```{r, PPS heatmap}
+```{r, PPS-heatmap}
 ppsr::visualize_matrix(df = iris)
 ```
 

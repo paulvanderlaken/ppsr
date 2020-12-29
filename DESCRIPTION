@@ -20,4 +20,5 @@ Imports:
     parsnip (>= 0.1.4),
     tidyr (>= 1.1.2),
     tidyselect (>= 1.1.0),
-    rpart (>= 4.1.15)
+    rpart (>= 4.1.15),
+    withr (>= 2.3.0)
