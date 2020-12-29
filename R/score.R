@@ -16,18 +16,28 @@
 score = function(x,
                  y,
                  algorithm = 'tree',
-                 eval_funs = list('regression' = eval_mae, 'classification' = eval_f1_score)) {
-  # perform checks
+                 eval_funs = list('regression' = eval_mae, 'classification' = eval_weighted_f1_score)) {
+  ## perform checks
+  # an ID variable has no predictive power
   if (is_id(x) | is_id(y)) {
-    return(0) # an ID variable has no predictive power
+    return(0)
   }
+  # a vector without variation has no predictive power
   if (is_constant(x) | is_constant(y)) {
-    return(0) # a vector without variation has no predictive power
+    return(0)
   }
+  # a vector that is completely similar has full predictive power
   if (is_same(x, y)) {
-    return(1) # a vector that is completely similar has full predictive power
+    return(1)
   }
 
+  # force binary numerics into factors
+  if (is_binary_numeric(y)) {
+    cat('Forcing binary numeric to factor.\n')
+    y = as.factor(y)
+  }
+
+  ## prepare data
   # store predictor and target in data frame
   df = data.frame(x = x, y = y)
 
@@ -37,9 +47,8 @@ score = function(x,
   # determine type of model we are dealing with
   mode = ifelse(is.numeric(y), 'regression', 'classification')
 
-  # specify and set up statistical model
+  ## set up statistical model
   # TODO implement other models
-
   if (algorithm == 'tree') {
     model = parsnip::decision_tree()
     model = parsnip::set_engine(model, "rpart")
@@ -51,11 +60,12 @@ score = function(x,
   yhat = stats::predict(model, new_data = df)[[1]]
   # TODO implement cross-validation
 
+  ## evaluate models
   # get the appropriate evaluation function
   eval_fun = eval_funs[[mode]]
 
   # calculate prediction error
-  score_original = eval_fun(y = y, yhat = yhat)
+  score_original = eval_fun(y = df$y, yhat = yhat)
 
   # calculate prediction error of a naive model
   if (mode == 'regression') {
@@ -68,10 +78,11 @@ score = function(x,
     score_normalized = max(c(1 - (score_original / score_naive), 0))
   } else {
     # naive classification model takes the best model
-    # among a model that predicts random values
-    # and a model that predicts the most common case
+    # among a model that predicts the most common case
+    # and a model that predicts random values
     naive_predictions_model = rep(modal_value(df$y), times = nrow(df))
-    naive_predictions_random = sample(df$y, size = nrow(df), replace = TRUE)
+    # ensure that the random predictions are always the same
+    naive_predictions_random = withr::with_seed(1, sample(df$y, size = nrow(df), replace = TRUE))
     score_naive = max(c(eval_fun(y = df$y, yhat = naive_predictions_model),
                         eval_fun(y = df$y, yhat = naive_predictions_random)))
 

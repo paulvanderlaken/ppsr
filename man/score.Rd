@@ -8,7 +8,7 @@ score(
   x,
   y,
   algorithm = "tree",
-  eval_funs = list(regression = eval_mae, classification = eval_f1_score)
+  eval_funs = list(regression = eval_mae, classification = eval_weighted_f1_score)
 )
 }
 \arguments{

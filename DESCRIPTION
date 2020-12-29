@@ -1,7 +1,7 @@
 Package: ppsr
 Type: Package
 Title: Predictive Power Score
-Version: 0.0.0.9000
+Version: 0.0.0.9100
 Authors@R: 
     person("Paul", "van der Laken", email = "paulvanderlaken@gmail.com", role = c("aut", "cre"))
 Description: The PPS is an asymmetric, data-type-agnostic score that can detect 
@@ -20,4 +20,5 @@ Imports:
     parsnip (>= 0.1.4),
     tidyr (>= 1.1.2),
     tidyselect (>= 1.1.0),
-    rpart (>= 4.1.15)
+    rpart (>= 4.1.15),
+    withr (>= 2.3.0)
