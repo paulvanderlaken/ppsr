@@ -14,8 +14,8 @@
 #' visualize_predictors(mtcars, 'mpg')
 #'
 #' visualize_predictors(iris, 'Species')
-visualize_predictors = function(df, y, color = '#08306B') {
-  predictors = score_predictors(df, y)
+visualize_predictors = function(df, y, color = '#08306B', ...) {
+  predictors = score_predictors(df, y, ...)
   df_scores = as.data.frame(predictors)
 
   # extract feature and target names
@@ -43,8 +43,8 @@ visualize_predictors = function(df, y, color = '#08306B') {
 
 #' Visualize the PPS matrix
 #'
-#' @param df data.frame
-#' @param color color used for highlighting high PPS
+#' @inheritParams score_matrix
+#' @inheritParams visualize_predictors
 #'
 #' @return ggplot2 heatmap visualization
 #' @export
@@ -53,8 +53,8 @@ visualize_predictors = function(df, y, color = '#08306B') {
 #' visualize_matrix(mtcars)
 #'
 #' visualize_matrix(iris)
-visualize_matrix = function(df, color = '#08306B') {
-  mtrx = score_matrix(df)
+visualize_matrix = function(df, color = '#08306B', ...) {
+  mtrx = score_matrix(df, ...)
   df_scores = as.data.frame(mtrx)
 
   # extract feature and target names

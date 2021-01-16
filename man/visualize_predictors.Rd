@@ -4,7 +4,7 @@
 \alias{visualize_predictors}
 \title{Visualize the PPS of all predictors of a target}
 \usage{
-visualize_predictors(df, y, color = "#08306B")
+visualize_predictors(df, y, color = "#08306B", ...)
 }
 \arguments{
 \item{df}{data.frame}
@@ -12,6 +12,8 @@ visualize_predictors(df, y, color = "#08306B")
 \item{y}{string, column name of target variable}
 
 \item{color}{color used for highlighting high PPS}
+
+\item{...}{any arguments passed to \code{\link{score}}}
 }
 \value{
 ggplot2 vertical barplot visualization

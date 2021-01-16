@@ -4,12 +4,14 @@
 \alias{visualize_matrix}
 \title{Visualize the PPS matrix}
 \usage{
-visualize_matrix(df, color = "#08306B")
+visualize_matrix(df, color = "#08306B", ...)
 }
 \arguments{
 \item{df}{data.frame}
 
 \item{color}{color used for highlighting high PPS}
+
+\item{...}{any arguments passed to \code{\link{score}}}
 }
 \value{
 ggplot2 heatmap visualization
