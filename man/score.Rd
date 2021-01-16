@@ -8,7 +8,9 @@ score(
   x,
   y,
   algorithm = "tree",
-  eval_funs = list(regression = eval_mae, classification = eval_weighted_f1_score)
+  eval_funs = list(regression = eval_mae, classification = eval_weighted_f1_score),
+  cv_folds = 5,
+  seed = 1
 )
 }
 \arguments{
@@ -20,9 +22,13 @@ score(
 
 \item{eval_funs}{named list of \code{eval_*} functions used for
 regression and classification problems}
+
+\item{cv_folds}{float, number of cross-validation folds}
+
+\item{seed}{float, seed to ensure reproducibility/stability}
 }
 \value{
-numeric scalar representing predictive power score
+float,  representing predictive power score
 }
 \description{
 Calculate predictive power score for x on y

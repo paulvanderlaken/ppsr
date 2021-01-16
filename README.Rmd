@@ -44,7 +44,7 @@ In fact, there are many possible ways to calculate a PPS that satisfy the defini
 Currently, the `ppsr` package calculates PPS by default:
 
 * Using the default decision tree implementation of the `rpart` package, wrapped by `parsnip`
-* Using 0 cross-validations
+* Using 5 cross-validations
 * Using F1 scores to evaluate classification models. 
 Scores are normalized relatively to a naive benchmark consisting of predicting the modal or random `y` classes
 * Using MAE to evaluate regression models. 
@@ -102,7 +102,6 @@ On the developmental agenda are currently:
 
 * Implementation of different modeling techniques / algorithms
 * Implementation of different model evaluation metrics
-* Implementation of cross-validation
 * Implementation of downsampling for large datasets
 
 

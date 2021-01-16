@@ -42,7 +42,7 @@ Currently, the `ppsr` package calculates PPS by default:
 
   - Using the default decision tree implementation of the `rpart`
     package, wrapped by `parsnip`
-  - Using 0 cross-validations
+  - Using 5 cross-validations
   - Using F1 scores to evaluate classification models. Scores are
     normalized relatively to a naive benchmark consisting of predicting
     the modal or random `y` classes
@@ -64,22 +64,22 @@ Examples:
 
 ``` r
 ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
-#> [1] 0.1822185
+#> [1] 0.06790301
 ```
 
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
 #> $Sepal.Length
-#> [1] 0.6142833
+#> [1] 0.5591864
 #> 
 #> $Sepal.Width
-#> [1] 0.4014296
+#> [1] 0.3134401
 #> 
 #> $Petal.Length
-#> [1] 0.9299341
+#> [1] 0.916758
 #> 
 #> $Petal.Width
-#> [1] 0.9399976
+#> [1] 0.9398532
 #> 
 #> $Species
 #> [1] 1
@@ -88,11 +88,11 @@ ppsr::score_predictors(df = iris, y = 'Species')
 ``` r
 ppsr::score_matrix(df = iris)
 #>              Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
-#> Sepal.Length    1.0000000   0.1217743    0.6097753   0.4881395 0.4207886
-#> Sepal.Width     0.1822185   1.0000000    0.3000489   0.3174639 0.2237120
-#> Petal.Length    0.6687765   0.2815605    1.0000000   0.8072795 0.7972117
-#> Petal.Width     0.5436489   0.2301854    0.7732164   1.0000000 0.7630875
-#> Species         0.6142833   0.4014296    0.9299341   0.9399976 1.0000000
+#> Sepal.Length   1.00000000  0.04632352    0.5491398   0.4127668 0.4075487
+#> Sepal.Width    0.06790301  1.00000000    0.2376991   0.2174659 0.2012876
+#> Petal.Length   0.61608360  0.24263851    1.0000000   0.7917512 0.7904907
+#> Petal.Width    0.48735314  0.20124105    0.7437845   1.0000000 0.7561113
+#> Species        0.55918638  0.31344008    0.9167580   0.9398532 1.0000000
 ```
 
 ## Visualizing PPS
@@ -127,7 +127,6 @@ On the developmental agenda are currently:
 
   - Implementation of different modeling techniques / algorithms
   - Implementation of different model evaluation metrics
-  - Implementation of cross-validation
   - Implementation of downsampling for large datasets
 
 Note that there’s also an unfinished [R implementation of the PPS
