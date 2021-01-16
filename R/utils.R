@@ -1,5 +1,5 @@
 format_score = function(x, digits = 2) {
-  return(round(x, digits = digits))
+  return(formatC(x, format = 'f', digits = digits))
 }
 
 modal_value = function(x) {
