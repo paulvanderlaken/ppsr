@@ -4,7 +4,7 @@
 \alias{score_model}
 \title{Calculates out-of-sample model performance of a statistical model}
 \usage{
-score_model(train, test, model, eval_fun)
+score_model(train, test, model, x, y, metric)
 }
 \arguments{
 \item{train}{df, training data, containing variable y}
@@ -13,7 +13,11 @@ score_model(train, test, model, eval_fun)
 
 \item{model}{parsnip model object, with mode preset}
 
-\item{eval_fun}{function, evaluation function being used}
+\item{x}{character, column name of predictor variable}
+
+\item{y}{character, column name of target variable}
+
+\item{metric}{character, name of evaluation metric being used, see \code{evaluation_functions()}}
 }
 \value{
 float, evaluation score for predictions using naive model

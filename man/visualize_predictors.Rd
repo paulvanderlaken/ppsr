@@ -7,7 +7,7 @@
 visualize_predictors(df, y, color = "#08306B", ...)
 }
 \arguments{
-\item{df}{data.frame}
+\item{df}{data.frame containing columns for x and y}
 
 \item{y}{string, column name of target variable}
 
@@ -22,7 +22,5 @@ ggplot2 vertical barplot visualization
 Visualize the PPS of all predictors of a target
 }
 \examples{
-visualize_predictors(mtcars, 'mpg')
-
 visualize_predictors(iris, 'Species')
 }

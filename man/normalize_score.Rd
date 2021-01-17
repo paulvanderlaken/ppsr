@@ -5,12 +5,12 @@
 \title{Normalizes the original score compared to a naive baseline score
 The calculation that's being performed depends on the type of model}
 \usage{
-normalize_score(score_baseline, score_original, type)
+normalize_score(baseline_score, model_score, type)
 }
 \arguments{
-\item{score_baseline}{float, the evaluation metric score for a naive model}
+\item{baseline_score}{float, the evaluation metric score for a naive baseline (model)}
 
-\item{score_original}{float, the evaluation metric score for a statistical model}
+\item{model_score}{float, the evaluation metric score for a statistical model}
 
 \item{type}{character, type of model}
 }

@@ -63,8 +63,39 @@ where `x` and `y` represent an individual feature/target, and `X` and
 Examples:
 
 ``` r
-ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
+ppsr::score(iris, x = 'Sepal.Length', y = 'Sepal.Width')
+#> $x
+#> [1] "Sepal.Length"
+#> 
+#> $y
+#> [1] "Sepal.Width"
+#> 
+#> $result_type
+#> [1] "predictive power score"
+#> 
+#> $pps
 #> [1] 0.06790301
+#> 
+#> $metric
+#> [1] "MAE"
+#> 
+#> $baseline_score
+#> [1] 0.3372222
+#> 
+#> $model_score
+#> [1] 0.3184796
+#> 
+#> $cv_folds
+#> [1] 5
+#> 
+#> $seed
+#> [1] 1
+#> 
+#> $algorithm
+#> [1] "tree"
+#> 
+#> $model_type
+#> [1] "regression"
 ```
 
 ``` r
@@ -88,11 +119,11 @@ ppsr::score_predictors(df = iris, y = 'Species')
 ``` r
 ppsr::score_matrix(df = iris)
 #>              Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
-#> Sepal.Length   1.00000000  0.04632352    0.5491398   0.4127668 0.4075487
-#> Sepal.Width    0.06790301  1.00000000    0.2376991   0.2174659 0.2012876
-#> Petal.Length   0.61608360  0.24263851    1.0000000   0.7917512 0.7904907
-#> Petal.Width    0.48735314  0.20124105    0.7437845   1.0000000 0.7561113
-#> Species        0.55918638  0.31344008    0.9167580   0.9398532 1.0000000
+#> Sepal.Length   1.00000000  0.06790301    0.6160836   0.4873531 0.5591864
+#> Sepal.Width    0.04632352  1.00000000    0.2426385   0.2012411 0.3134401
+#> Petal.Length   0.54913985  0.23769911    1.0000000   0.7437845 0.9167580
+#> Petal.Width    0.41276679  0.21746588    0.7917512   1.0000000 0.9398532
+#> Species        0.40754872  0.20128762    0.7904907   0.7561113 1.0000000
 ```
 
 ## Visualizing PPS

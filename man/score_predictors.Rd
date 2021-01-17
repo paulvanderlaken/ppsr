@@ -9,9 +9,9 @@ using every column in the dataset as \code{x}, including itself.}
 score_predictors(df, y, ...)
 }
 \arguments{
-\item{df}{data.frame}
+\item{df}{data.frame containing columns for x and y}
 
-\item{y}{character scalar with target column name}
+\item{y}{character, column name of target variable}
 
 \item{...}{any arguments passed to \code{\link{score}}}
 }

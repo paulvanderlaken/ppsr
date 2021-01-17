@@ -7,7 +7,7 @@
 visualize_matrix(df, color = "#08306B", ...)
 }
 \arguments{
-\item{df}{data.frame}
+\item{df}{data.frame containing columns for x and y}
 
 \item{color}{color used for highlighting high PPS}
 
@@ -20,7 +20,5 @@ ggplot2 heatmap visualization
 Visualize the PPS matrix
 }
 \examples{
-visualize_matrix(mtcars)
-
 visualize_matrix(iris)
 }

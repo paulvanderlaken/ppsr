@@ -11,8 +11,6 @@
 #' @export
 #'
 #' @examples
-#' visualize_predictors(mtcars, 'mpg')
-#'
 #' visualize_predictors(iris, 'Species')
 visualize_predictors = function(df, y, color = '#08306B', ...) {
   predictors = score_predictors(df, y, ...)
@@ -50,8 +48,6 @@ visualize_predictors = function(df, y, color = '#08306B', ...) {
 #' @export
 #'
 #' @examples
-#' visualize_matrix(mtcars)
-#'
 #' visualize_matrix(iris)
 visualize_matrix = function(df, color = '#08306B', ...) {
   mtrx = score_matrix(df, ...)

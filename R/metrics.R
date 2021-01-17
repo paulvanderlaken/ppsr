@@ -154,3 +154,20 @@ eval_weighted_f1_score = function(y, yhat) {
   w = prop.table(table(y))
   return(stats::weighted.mean(f1, w))
 }
+
+#' Lists all evaluation functions currently supported
+#'
+#' @return list of evaluation functions
+#' @export
+#'
+#' @examples
+#' evaluation_functions()
+evaluation_functions = function() {
+  return(list(
+    'MAE' = eval_mae,
+    'RMSE' = eval_rmse,
+    'F1' = eval_f1_score,
+    'F1_macro' = eval_macro_f1_score,
+    'F1_weighted' = eval_weighted_f1_score
+  ))
+}

@@ -5,22 +5,25 @@
 \title{Calculate predictive power score for x on y}
 \usage{
 score(
+  df,
   x,
   y,
   algorithm = "tree",
-  eval_funs = list(regression = eval_mae, classification = eval_weighted_f1_score),
+  metrics = list(regression = "MAE", classification = "F1_weighted"),
   cv_folds = 5,
   seed = 1
 )
 }
 \arguments{
-\item{x}{any type of vector of predictor values}
+\item{df}{data.frame containing columns for x and y}
 
-\item{y}{any type of vector of target values}
+\item{x}{character, column name of predictor variable}
 
-\item{algorithm}{character scalar}
+\item{y}{character, column name of target variable}
 
-\item{eval_funs}{named list of \code{eval_*} functions used for
+\item{algorithm}{character}
+
+\item{metrics}{named list of \code{eval_*} functions used for
 regression and classification problems}
 
 \item{cv_folds}{float, number of cross-validation folds}
@@ -34,7 +37,5 @@ float,  representing predictive power score
 Calculate predictive power score for x on y
 }
 \examples{
-score(x = mtcars$mpg, y = mtcars$cyl)
-
-score(x = iris$Petal.Length, y = iris$Species)
+score(iris, x = 'Petal.Length', y = 'Species')
 }

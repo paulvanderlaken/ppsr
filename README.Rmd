@@ -64,7 +64,7 @@ and `X` and `Y` represent all features/targets in a given dataset.
 
 Examples:
 ```{r}
-ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
+ppsr::score(iris, x = 'Sepal.Length', y = 'Sepal.Width')
 ```
 
 ```{r}

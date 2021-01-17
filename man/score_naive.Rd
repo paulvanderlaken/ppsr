@@ -9,16 +9,20 @@ For classification, a model predicting random values and
 a model predicting modal values are used and
 the best model is taken as baseline score}
 \usage{
-score_naive(train, test, type, eval_fun)
+score_naive(train, test, x, y, type, metric)
 }
 \arguments{
 \item{train}{df, training data, containing variable y}
 
 \item{test}{df, test data, containing variable y}
 
+\item{x}{character, column name of predictor variable}
+
+\item{y}{character, column name of target variable}
+
 \item{type}{character, type of model}
 
-\item{eval_fun}{function, evaluation function being used}
+\item{metric}{character, evaluation metric being used}
 }
 \value{
 float, evaluation score for predictions using naive model
