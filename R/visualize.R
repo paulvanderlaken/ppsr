@@ -139,6 +139,6 @@ visualize_both = function(df,
                                     color_value_negative = color_value_negative,
                                     color_text = color_text,
                                     include_missings = TRUE)
-  return(gridExtra::arrangeGrob(plot_pps, plot_cor, nrow = nrow))
+  return(gridExtra::grid.arrange(plot_pps, plot_cor, nrow = nrow))
 }
 
