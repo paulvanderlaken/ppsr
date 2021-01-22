@@ -198,7 +198,7 @@ score_predictors = function(df, y, ...) {
   #TODO implement parallelization here
   scores = lapply(colnames(df), function(x) {
     score(df, x = x, y = y, ...)
-    })
+  })
   scores = fill_blanks_in_list(scores)
   scores_df = do.call(rbind.data.frame, scores)
   rownames(scores_df) = NULL #TODO fix issue with duplicate rownames
@@ -223,7 +223,7 @@ score_df = function(df, ...) {
   #TODO implement parallelization here or make sure to leverage it at lower levels
   scores = lapply(seq_len(nrow(g)), function(i) {
     score(df, x = g[['x']][i], y = g[['y']][i], ...)
-    })
+  })
   scores = fill_blanks_in_list(scores)
   df_scores = do.call(rbind.data.frame, scores)
   rownames(df_scores) = NULL #TODO fix issue with duplicate rownames
