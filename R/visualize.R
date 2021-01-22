@@ -29,7 +29,7 @@ correlation_breaks = function() {
 #'     can be left \code{NULL} to visualize all X-Y PPS
 #' @param color_value_high color used for upper limit of PPS gradient (high PPS)
 #' @param color_value_low color used for lower limit of PPS gradient (low PPS)
-#' @param color_text color used for text, best to pick high contrast with \code(color_value_high)
+#' @param color_text color used for text, best to pick high contrast with \code{color_value_high}
 #'
 #' @return ggplot2 vertical barplot or heatmap visualization
 #' @export
