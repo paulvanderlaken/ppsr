@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/README/",
   fig.width = 7,
-  fig.height = 5
+  fig.height = 5, 
+  dpi = 300
 )
 ```
 
