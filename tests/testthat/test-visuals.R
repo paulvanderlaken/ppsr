@@ -1,14 +1,14 @@
 context("Check whether visualizations work")
 
-plot_pred = visualize_predictors(iris, 'Species')
-plot_mat = visualize_matrix(iris)
+plot_pred = visualize_pps(iris, y = 'Species')
+plot_mat = visualize_pps(iris)
 plot_cor = visualize_correlations(iris)
 plot_both = visualize_both(iris)
 
 test_that("Functions run without error", {
   iris_subset = iris[, 1:2]
-  expect_success(visualize_predictors(iris, 'Species'))
-  expect_success(visualize_matrix(iris_subset))
+  expect_success(visualize_pps(iris, y = 'Species'))
+  expect_success(visualize_pps(iris_subset))
   expect_success(visualize_correlations(iris))
   expect_success(visualize_both(iris_subset))
 })
