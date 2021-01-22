@@ -19,4 +19,5 @@ Imports:
     ggplot2 (>= 3.3.2),
     parsnip (>= 0.1.4),
     rpart (>= 4.1.15),
-    withr (>= 2.3.0)
+    withr (>= 2.3.0),
+    gridExtra (>= 2.3)
