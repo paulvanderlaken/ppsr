@@ -19,12 +19,13 @@ correlation_breaks = function() {
 #' of the PPS for all X-Y combinations in a dataframe.
 #'
 #' @inheritParams score_predictors
-#' @param y string, column name of target variable
+#' @param y string, column name of target variable,
+#'     can be left \code{NULL} to visualize all X-Y PPS
 #' @param color_value_high color used for upper limit of PPS gradient (high PPS)
 #' @param color_value_low color used for lower limit of PPS gradient (low PPS)
 #' @param color_text color used for text, best to pick high contrast with \code(color_value_high)
 #'
-#' @return ggplot2 vertical barplot visualization
+#' @return ggplot2 vertical barplot or heatmap visualization
 #' @export
 #'
 #' @examples
