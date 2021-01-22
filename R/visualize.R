@@ -1,43 +1,37 @@
-# solve warnings: no visible binding for global variable
-.x <- .y <- NULL
+
+pps_breaks = function() {
+  return(seq(0, 1, 0.2))
+}
+
 
 #' Visualize the PPS of all predictors of a target
 #'
 #' @inheritParams score_predictors
 #' @param y string, column name of target variable
-#' @param color color used for highlighting high PPS
+#' @param color_pps color used for upper limit of PPS gradient (high PPS)
+#' @param color_text color used for text, best to pick high contrast with \code(color_pps)
 #'
 #' @return ggplot2 vertical barplot visualization
 #' @export
 #'
 #' @examples
 #' visualize_predictors(iris, 'Species')
-visualize_predictors = function(df, y, color = '#08306B', ...) {
-  predictors = score_predictors(df, y, ...)
-  df_scores = as.data.frame(predictors)
+visualize_predictors = function(df, y, color_pps = '#08306B', color_text = '#000000', ...) {
+  df_scores = score_predictors(df, y, ...)
 
-  # extract feature and target names
-  features = colnames(df_scores)
-  df_scores$.y = row.names(df_scores)
-  row.names(df_scores) = NULL
-
-  # transpose predictive power scores to tidy, long format for visualization
-  df_scores_long = tidyr::pivot_longer(df_scores,
-                                       cols = tidyselect::all_of(features),
-                                       names_to = '.x',
-                                       values_to = 'score')
-
-  # visualize as heatmap
   p =
-    ggplot2::ggplot(df_scores_long, ggplot2::aes(x = score, y = stats::reorder(.x, score))) +
-    ggplot2::geom_col(ggplot2::aes(fill = score)) +
-    ggplot2::geom_text(ggplot2::aes(label = format_score(score)), hjust = 0) +
+    ggplot2::ggplot(df_scores, ggplot2::aes(x = pps, y = stats::reorder(x, pps))) +
+    ggplot2::geom_col(ggplot2::aes(fill = pps)) +
+    ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), hjust = 0) +
+    ggplot2::scale_x_continuous(breaks = pps_breaks(), limits = c(0, 1.05)) +
     ggplot2::scale_y_discrete(name = 'feature') +
-    ggplot2::scale_fill_gradient(low = 'white', high = color, limits = c(0, 1)) +
+    ggplot2::scale_fill_gradient(low = 'white', high = color_pps,
+                                 limits = c(0, 1), breaks = pps_breaks()) +
     ggplot2::expand_limits(fill = c(0, 1)) +
     ggplot2::theme_minimal()
   return(p)
 }
+
 
 #' Visualize the PPS matrix
 #'
@@ -49,27 +43,18 @@ visualize_predictors = function(df, y, color = '#08306B', ...) {
 #'
 #' @examples
 #' visualize_matrix(iris)
-visualize_matrix = function(df, color = '#08306B', ...) {
-  mtrx = score_matrix(df, ...)
-  df_scores = as.data.frame(mtrx)
+visualize_matrix = function(df, color_pps = '#08306B', color_text = '#FFFFFF', ...) {
+  cnames = colnames(df)
+  df_scores = score_df(df, ...)
 
-  # extract feature and target names
-  features = colnames(df_scores)
-  df_scores$.y = row.names(df_scores)
-  row.names(df_scores) = NULL
-
-  # transpose predictive power scores to tidy, long format for visualization
-  df_scores_long = tidyr::pivot_longer(df_scores,
-                                       cols = tidyselect::all_of(features),
-                                       names_to = '.x',
-                                       values_to = 'score')
   p =
-    ggplot2::ggplot(df_scores_long, ggplot2::aes(x = .x, y = .y)) +
-    ggplot2::geom_tile(ggplot2::aes(fill = score)) +
-    ggplot2::geom_text(ggplot2::aes(label = format_score(score))) +
-    ggplot2::scale_x_discrete(limits = features, name = 'feature') +
-    ggplot2::scale_y_discrete(limits = rev(features), name = 'target') +
-    ggplot2::scale_fill_gradient(low = 'white', high = color, limits = c(0, 1)) +
+    ggplot2::ggplot(df_scores, ggplot2::aes(x = x, y = y)) +
+    ggplot2::geom_tile(ggplot2::aes(fill = pps)) +
+    ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), col = color_text) +
+    ggplot2::scale_x_discrete(limits = cnames, name = 'feature') +
+    ggplot2::scale_y_discrete(limits = rev(cnames), name = 'target') +
+    ggplot2::scale_fill_gradient(low = 'white', high = color_pps,
+                                 limits = c(0, 1), breaks = pps_breaks()) +
     ggplot2::expand_limits(fill = c(0, 1)) +
     ggplot2::theme_minimal()
   return(p)
