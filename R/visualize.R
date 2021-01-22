@@ -1,3 +1,7 @@
+# To prevent warnings: no visible binding for global variable
+x <- y <- pps <- correlation <- NULL
+
+
 
 pps_break_interval = function() {
   return(0.2)
@@ -6,7 +10,9 @@ pps_break_interval = function() {
 pps_breaks = function() {
   return(seq(0, 1, pps_break_interval()))
 }
+
 correlation_breaks = function() {
+  # range twice as long so interval twice as long
   return(seq(-1, 1, pps_break_interval() * 2))
 }
 
