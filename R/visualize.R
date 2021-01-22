@@ -33,9 +33,9 @@ visualize_predictors = function(df,
   df_scores = score_predictors(df, y, ...)
 
   p =
-    ggplot2::ggplot(df_scores, ggplot2::aes(x = correlation, y = stats::reorder(x, correlation))) +
-    ggplot2::geom_col(ggplot2::aes(fill = correlation)) +
-    ggplot2::geom_text(ggplot2::aes(label = format_score(correlation)), hjust = 0) +
+    ggplot2::ggplot(df_scores, ggplot2::aes(x = pps, y = stats::reorder(x, pps))) +
+    ggplot2::geom_col(ggplot2::aes(fill = pps)) +
+    ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), hjust = 0) +
     ggplot2::scale_x_continuous(breaks = pps_breaks(), limits = c(0, 1.05)) +
     ggplot2::scale_y_discrete(name = 'feature') +
     ggplot2::scale_fill_gradient(low = color_value_low, high = color_value_high,
