@@ -263,7 +263,7 @@ score_matrix = function(df, ...) {
 #' Calculate correlation coefficients for whole dataframe
 #'
 #' @param df data.frame containing columns for x and y
-#' @param ... arguments to pass to \code{\link{stats::cor}}
+#' @param ... arguments to pass to \code{stats::cor()}
 #'
 #' @return data.frame with x-y correlation coefficients
 #' @export
