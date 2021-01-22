@@ -12,7 +12,9 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/README/"
+  fig.path = "man/README/",
+  fig.width = 7,
+  fig.height = 5
 )
 ```
 
@@ -100,7 +102,7 @@ ppsr::visualize_pps(df = iris)
 ppsr::visualize_correlations(df = iris)
 ```
 
-```{r, sbs-heatmap}
+```{r, sbs-heatmap, fig.width=14}
 ppsr::visualize_both(df = iris)
 ```
 
