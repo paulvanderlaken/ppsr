@@ -13,11 +13,11 @@ test_that("PPS is between zero and one", {
     y5 = as.numeric(x > 0)
   )
 
-  pps1 = score(df, 'x', 'y1')[['pps']]
-  pps2 = score(df, 'x', 'y2')[['pps']]
-  pps3 = score(df, 'x', 'y3')[['pps']]
-  pps4 = score(df, 'x', 'y4')[['pps']]
-  pps5 = score(df, 'x', 'y5')[['pps']]
+  pps1 = score(df, 'x', 'y1', verbose = FALSE)[['pps']]
+  pps2 = score(df, 'x', 'y2', verbose = FALSE)[['pps']]
+  pps3 = score(df, 'x', 'y3', verbose = FALSE)[['pps']]
+  pps4 = score(df, 'x', 'y4', verbose = FALSE)[['pps']]
+  pps5 = score(df, 'x', 'y5', verbose = FALSE)[['pps']]
 
   min_pps = 0
   max_pps = 1
@@ -40,11 +40,11 @@ test_that("The calculated PPS is stable", {
     y2 = as.numeric(x > 0)
   )
 
-  pps1.1 = score(df, 'x', 'y1')[['pps']]
-  pps2.1 = score(df, 'x', 'y2')[['pps']]
+  pps1.1 = score(df, 'x', 'y1', verbose = FALSE)[['pps']]
+  pps2.1 = score(df, 'x', 'y2', verbose = FALSE)[['pps']]
 
-  pps1.2 = score(df, 'x', 'y1')[['pps']]
-  pps2.2 = score(df, 'x', 'y2')[['pps']]
+  pps1.2 = score(df, 'x', 'y1', verbose = FALSE)[['pps']]
+  pps2.2 = score(df, 'x', 'y2', verbose = FALSE)[['pps']]
 
   expect_equal(pps1.1, pps1.2)
   expect_equal(pps2.1, pps2.2)
