@@ -67,7 +67,7 @@ visualize_pps = function(df,
 #' @inheritParams score_correlations
 #' @param color_value_positive color used for upper limit of gradient (high positive correlation)
 #' @param color_value_negative color used for lower limit of gradient (high negative correlation)
-#' @param color_text color used for text, best to pick high contrast with \code(color_value_high)
+#' @param color_text color used for text, best to pick high contrast with \code{color_value_high}
 #' @include_missings bool, whether to include the variables without correlation values in the plot
 #'
 #' @return ggplot2 heatmap visualization
