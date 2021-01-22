@@ -68,9 +68,9 @@ score = function(df,
     return(generate_invalid_report(x, y, 'target and predictor are same', 1))
   }
 
-  # force binary numerics into factors
-  if (is_binary_numeric(df[[y]])) {
-    if(verbose) cat('Note: ', y, 'was forced from binary numeric to factor.\n')
+  # force binary numerics, boolean/logicals, and characters/texts to factor
+  if (is_binary_numeric(df[[y]]) | is.logical(df[[y]]) | is.character(df[[y]])) {
+    if(verbose) cat('Note: ', y, ' was forced from ', type(df[[y]]), ' to factor.\n')
     df[[y]] = as.factor(df[[y]])
   }
 

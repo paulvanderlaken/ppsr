@@ -49,3 +49,43 @@ test_that("The calculated PPS is stable", {
   expect_equal(pps1.1, pps1.2)
   expect_equal(pps2.1, pps2.2)
 })
+
+
+test_that("Classification works for characters, booleans, and binary numerics", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.logical(x > 0),
+    y2 = as.numeric(x > 0),
+    y3 = sample(c('a', 'b', 'c'), size = n, replace = TRUE)
+  )
+
+  result1 = score(df, 'x', 'y1', verbose = FALSE)
+  result2 = score(df, 'x', 'y2', verbose = FALSE)
+  result3 = score(df, 'x', 'y3', verbose = FALSE)
+
+
+  expect_equal(result1$model_type, 'classification')
+  expect_equal(result2$model_type, 'classification')
+  expect_equal(result3$model_type, 'classification')
+})
+
+
+test_that("Regression works for doubles and integers", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x)),
+    y2 = as.numeric(x + rnorm(n = n))
+  )
+
+  result1 = score(df, 'x', 'y1', verbose = FALSE)
+  result2 = score(df, 'x', 'y2', verbose = FALSE)
+
+  expect_equal(result1$model_type, 'regression')
+  expect_equal(result1$model_type, 'regression')
+})
