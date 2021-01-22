@@ -38,7 +38,7 @@ visualize_predictors = function(df,
     ggplot2::geom_text(ggplot2::aes(label = format_score(correlation)), hjust = 0) +
     ggplot2::scale_x_continuous(breaks = pps_breaks(), limits = c(0, 1.05)) +
     ggplot2::scale_y_discrete(name = 'feature') +
-    ggplot2::scale_fill_gradient(low = color_value_low, high = color_value,
+    ggplot2::scale_fill_gradient(low = color_value_low, high = color_value_high,
                                  limits = c(0, 1), breaks = pps_breaks()) +
     ggplot2::expand_limits(fill = c(0, 1)) +
     ggplot2::theme_minimal()
