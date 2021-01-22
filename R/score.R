@@ -269,8 +269,8 @@ score_matrix = function(df, ...) {
 #' @export
 #'
 #' @examples
-#' score_correlation(iris)
-score_correlation = function(df, ...) {
+#' score_correlations(iris)
+score_correlations = function(df, ...) {
   isCorrelationColumn = vapply(df, function(x) is.numeric(x) | is.logical(x), logical(1))
   cnames = names(df)[isCorrelationColumn]
   cmat = stats::cor(df[, cnames], ...)
