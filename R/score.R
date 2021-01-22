@@ -258,6 +258,27 @@ score_matrix = function(df, ...) {
 
 
 
+#' Calculate correlation coefficients for whole dataframe
+#'
+#' @param df data.frame containing columns for x and y
+#' @param ... arguments to pass to \code{\link{stats::cor}}
+#'
+#' @return data.frame with x-y correlation coefficients
+#' @export
+#'
+#' @examples score_correlation(iris)
+score_correlation = function(df, ...) {
+  isCorrelationColumn = vapply(df, function(x) is.numeric(x) | is.logical(x), logical(1))
+  cnames = names(df)[isCorrelationColumn]
+  cmat = stats::cor(df[, cnames], ...)
+  correlation = as.vector(cmat)
+  y = rep(rownames(cmat), each = ncol(cmat))
+  x = rep(colnames(cmat), times = nrow(cmat))
+  return(data.frame(x, y, correlation))
+}
+
+
+
 
 
 generate_invalid_report = function(x, y, result_type, pps) {
