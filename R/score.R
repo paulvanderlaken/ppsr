@@ -9,6 +9,7 @@
 #'     regression and classification problems
 #' @param cv_folds float, number of cross-validation folds
 #' @param seed float, seed to ensure reproducibility/stability
+#' @param verbose bool, whether to print notifications
 #'
 #' @return float,  representing predictive power score
 #' @export
@@ -21,7 +22,8 @@ score = function(df,
                  algorithm = 'tree',
                  metrics = list('regression' = 'MAE', 'classification' = 'F1_weighted'),
                  cv_folds = 5,
-                 seed = 1) {
+                 seed = 1,
+                 verbose = TRUE) {
 
   # check if x and y are different variables
   if (x == y) {
@@ -68,7 +70,7 @@ score = function(df,
 
   # force binary numerics into factors
   if (is_binary_numeric(df[[y]])) {
-    cat('Note: ', y, 'was forced from binary numeric to factor.\n')
+    if(verbose) cat('Note: ', y, 'was forced from binary numeric to factor.\n')
     df[[y]] = as.factor(df[[y]])
   }
 
