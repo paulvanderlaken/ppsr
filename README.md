@@ -162,11 +162,9 @@ ppsr::visualize_correlations(df = iris)
 
 ``` r
 ppsr::visualize_both(df = iris)
-#> TableGrob (1 x 2) "arrange": 2 grobs
-#>   z     cells    name           grob
-#> 1 1 (1-1,1-1) arrange gtable[layout]
-#> 2 2 (1-1,2-2) arrange gtable[layout]
 ```
+
+![](man/README/sbs-heatmap-1.png)<!-- -->
 
 You can change the colors of the visualizations using the functions
 arguments. There are also arguments to change the color of the text
