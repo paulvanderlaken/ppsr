@@ -185,7 +185,7 @@ score = function(df,
 #' @inheritParams score
 #' @param ... any arguments passed to \code{\link{score}}
 #'
-#' @return list of float scalars, representing predictive power scores
+#' @return dataframe, detailed report on predictive power scores
 #' @export
 #'
 #' @examples
@@ -194,13 +194,40 @@ score = function(df,
 #' score_predictors(df = iris, y = 'Species')
 score_predictors = function(df, y, ...) {
   #TODO implement parallelization here
-  cnames = colnames(df)
-  scores = list()
-  for (x in cnames) {
-    scores[x] = score(df, x = x, y = y, ...)[['pps']]
-  }
-  return(scores)
+  scores = lapply(colnames(df), function(x) {
+    score(df, x = x, y = y, ...)
+    })
+  scores = fill_blanks_in_list(scores)
+  scores_df = do.call(rbind.data.frame, scores)
+  rownames(scores_df) = NULL #TODO fix issue with duplicate rownames
+  return(scores_df)
 }
+
+#' Calculate predictive power scores for whole dataframe
+#' Iterates through the columns of the dataframe, calculating the predictive power
+#' score for every possible combination of \code{x} and \code{y}.
+#'
+#' @inheritParams score
+#' @param ... any arguments passed to \code{\link{score}}
+#'
+#' @return dataframe, detailed report on predictive power scores
+#' @export
+#'
+#' @examples
+#' score_df(iris)
+score_df = function(df, ...) {
+  cnames = colnames(df)
+  g = expand.grid(x = cnames, y = cnames, stringsAsFactors = FALSE)
+  #TODO implement parallelization here or make sure to leverage it at lower levels
+  scores = lapply(seq_len(nrow(g)), function(i) {
+    score(df, x = g[['x']][i], y = g[['y']][i], ...)
+    })
+  scores = fill_blanks_in_list(scores)
+  df_scores = do.call(rbind.data.frame, scores)
+  rownames(df_scores) = NULL #TODO fix issue with duplicate rownames
+  return(df_scores)
+}
+
 
 #' Calculate predictive power score matrix
 #' Iterates through the columns of the dataset, calculating the predictive power
@@ -217,11 +244,13 @@ score_predictors = function(df, y, ...) {
 #' @examples
 #' score_matrix(iris)
 score_matrix = function(df, ...) {
-  cnames = colnames(df)
-  mtrx = matrix(nrow = ncol(df), ncol = ncol(df), dimnames = list(cnames, cnames))
-  for (x in cnames) {
-    for (y in cnames) {
-      mtrx[x, y] = score(df, x = x, y = y, ...)[['pps']]
+  df_scores = score_df(df, ...)
+  var_uq = unique(df_scores[['x']])
+  mtrx = matrix(nrow = length(var_uq), ncol = length(var_uq), dimnames = list(var_uq, var_uq))
+  for (x in var_uq) {
+    for (y in var_uq) {
+      # Note: target on the y axis (rows) and feature on the x axis (columns)
+      mtrx[y, x] = df_scores[['pps']][df_scores[['x']] == x & df_scores[['y']] == y]
     }
   }
   return(mtrx)
