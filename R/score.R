@@ -266,7 +266,8 @@ score_matrix = function(df, ...) {
 #' @return data.frame with x-y correlation coefficients
 #' @export
 #'
-#' @examples score_correlation(iris)
+#' @examples
+#' score_correlation(iris)
 score_correlation = function(df, ...) {
   isCorrelationColumn = vapply(df, function(x) is.numeric(x) | is.logical(x), logical(1))
   cnames = names(df)[isCorrelationColumn]
