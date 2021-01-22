@@ -1,33 +1,35 @@
-context("Check column characteristics")
+context("Column identification works")
 
 test_that("ID columns are identified", {
-  expect_true(is_id(row.names(mtcars)))
-  expect_equal(score(x = row.names(mtcars), y = mtcars$mpg), 0)
-  expect_equal(score(x = mtcars$mpg, y = row.names(mtcars)), 0)
+
+  df = mtcars
+  df[['id']] = row.names(mtcars)
+
+  expect_true(is_id(df[['id']]))
+  expect_equal(score(df, x = 'id', y = 'mpg')[['pps']], 0)
+  expect_equal(score(df, x = 'mpg', y = 'id')[['pps']], 0)
 })
 
 test_that("Constants are identified", {
 
-  column_constant1 = c(1, 1, 1)
-  column_constant2 = c('a', 'a', 'a')
-  column_variance1 = c(1, 1, 2)
-  column_variance2 = c('a', 'a', 'b')
+  df = mtcars
+  df$constant1 = 1
+  df$constant2 = 'a'
 
-  expect_true(is_constant(column_constant1))
-  expect_true(is_constant(column_constant2))
-  expect_false(is_constant(column_variance1))
-  expect_equal(score(x = column_constant1, y = column_variance1), 0)
-  expect_equal(score(x = column_variance1, y = column_constant1), 0)
+  expect_true(is_constant(df$constant1))
+  expect_true(is_constant(df$constant2))
+  expect_false(is_constant(df$mpg))
+  expect_equal(score(df, x = 'constant1', y = 'constant2')[['pps']], 0)
+  expect_equal(score(df, x = 'constant2', y = 'constant1')[['pps']], 0)
 })
 
 test_that("Identify when target and features are the same", {
 
-  column1 = c(1, 2, 3)
-  column2 = c('a', 'a', 'b')
+  df = mtcars
+  df$mpg2 = df$mpg
 
-  expect_true(is_same(column1, column1))
-  expect_true(is_same(column2, column2))
-  expect_false(is_same(column1, column2))
-  expect_equal(score(x = column1, y = column1), 1)
-  expect_equal(score(x = column2, y = column2), 1)
+  expect_true(is_same(df$mpg, df$mpg2))
+  expect_false(is_same(df$mpg, df$cyl))
+  expect_equal(score(df, x = 'mpg', y = 'mpg')[['pps']], 1)
+  expect_equal(score(df, x = 'mpg', y = 'mpg2')[['pps']], 1)
 })

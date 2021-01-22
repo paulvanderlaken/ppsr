@@ -3,24 +3,24 @@
 \name{score_predictors}
 \alias{score_predictors}
 \title{Calculate predictive power scores for y
-Calcuates the predictive power scores for the specified \code{y} variable
+Calculates the predictive power scores for the specified \code{y} variable
 using every column in the dataset as \code{x}, including itself.}
 \usage{
 score_predictors(df, y, ...)
 }
 \arguments{
-\item{df}{data.frame}
+\item{df}{data.frame containing columns for x and y}
 
-\item{y}{character scalar with target column name}
+\item{y}{character, column name of target variable}
 
 \item{...}{any arguments passed to \code{\link{score}}}
 }
 \value{
-list of float scalars, representing predictive power scores
+dataframe, detailed report on predictive power scores
 }
 \description{
 Calculate predictive power scores for y
-Calcuates the predictive power scores for the specified \code{y} variable
+Calculates the predictive power scores for the specified \code{y} variable
 using every column in the dataset as \code{x}, including itself.
 }
 \examples{

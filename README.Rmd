@@ -12,7 +12,9 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/README/"
+  fig.path = "man/README/",
+  fig.width = 7,
+  fig.height = 5
 )
 ```
 
@@ -44,7 +46,7 @@ In fact, there are many possible ways to calculate a PPS that satisfy the defini
 Currently, the `ppsr` package calculates PPS by default:
 
 * Using the default decision tree implementation of the `rpart` package, wrapped by `parsnip`
-* Using 0 cross-validations
+* Using 5 cross-validations
 * Using F1 scores to evaluate classification models. 
 Scores are normalized relatively to a naive benchmark consisting of predicting the modal or random `y` classes
 * Using MAE to evaluate regression models. 
@@ -56,15 +58,16 @@ Scores are normalized using relatively to a naive benchmark of predicting the me
 The `ppsr` package has three main functions that compute PPS:
 
 * `score()` - which computes an x-y PPS
-* `score_predictors()` - which computes X-y PPS
-* `score_matrix()` - which computes X-Y PPS
+* `score_predictors()` - which computes all X-y PPS
+* `score_df()` - which computes all X-Y PPS
+* `score_matrix()` - which computes all X-Y PPS, and shows them in a matrix
 
 where `x` and `y` represent an individual feature/target, 
 and `X` and `Y` represent all features/targets in a given dataset.
 
 Examples:
 ```{r}
-ppsr::score(x = iris$Sepal.Length, y = iris$Sepal.Width)
+ppsr::score(iris, x = 'Sepal.Length', y = 'Sepal.Width')
 ```
 
 ```{r}
@@ -77,22 +80,44 @@ ppsr::score_matrix(df = iris)
 
 
 ## Visualizing PPS
-Subsequently, there are two main functions that wrap around these computational 
+Subsequently, there are three main functions that wrap around these computational 
 functions to help you visualize your PPS using `ggplot2`:
 
-* `visualize_predictors()` - producing a barplot of all X-y PPS
-* `visualize_matrix()` - producing a heatmap of all X-Y PPS
+* `visualize_pps()` - producing a barplot of all X-y PPS, or a heatmap of all X-Y PPS
+* `visualize_correlations()` - producing a heatmap of all X-Y correlations
+* `visualize_both()` - produces two heatmaps of the PPS and correlations of all X-Y PPS side-by-side
 
 Examples:
 ```{r, PPS-barplot}
-ppsr::visualize_predictors(df = iris, y = 'Species')
+# If you specify the target variable (y), you get a barplot of its predictors
+ppsr::visualize_pps(df = iris, y = 'Species')
 ```
 
 ```{r, PPS-heatmap}
-ppsr::visualize_matrix(df = iris)
+# If you do not specify `y`, you get a PPS matrix visualized as a heatmap 
+ppsr::visualize_pps(df = iris)
 ```
 
+```{r, correlation-heatmap}
+ppsr::visualize_correlations(df = iris)
+```
 
+```{r, sbs-heatmap, fig.width=14}
+ppsr::visualize_both(df = iris)
+```
+
+You can change the colors of the visualizations using the functions arguments.
+There are also arguments to change the color of the text scores.
+
+Furthermore, the functions return `ggplot2` objects, so you can easily change the theme and other settings.
+```{r, custom-plot}
+ppsr::visualize_pps(df = iris,
+                    color_value_high = 'red', 
+                    color_value_low = 'yellow',
+                    color_text = 'black') +
+  ggplot2::theme_classic() +
+  ggplot2::labs(title = 'Add your own title', caption = 'Or a nice caption')
+```
 
 ## Open issues & development
 PPS is a relatively young concept, and likewise the `ppsr` package is still under development. 
@@ -102,7 +127,6 @@ On the developmental agenda are currently:
 
 * Implementation of different modeling techniques / algorithms
 * Implementation of different model evaluation metrics
-* Implementation of cross-validation
 * Implementation of downsampling for large datasets
 
 

@@ -9,7 +9,7 @@ score for every possible combination of \code{x} and \code{y}.}
 score_matrix(df, ...)
 }
 \arguments{
-\item{df}{data.frame}
+\item{df}{data.frame containing columns for x and y}
 
 \item{...}{any arguments passed to \code{\link{score}}}
 }
@@ -20,7 +20,5 @@ matrix of floats, representing predictive power scores
 Note that the targets are on the rows, and the features on the columns.
 }
 \examples{
-score_matrix(mtcars)
-
 score_matrix(iris)
 }
