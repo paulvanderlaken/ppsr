@@ -21,11 +21,3 @@ test_that("Functions produce ggplot2 lists", {
   expect_true(is.list(plot_cor))
   expect_true(is.list(plot_both))
 })
-
-
-test_that("Functions produce ggplot2 plots and return nothing else", {
-  expect_true(expect_visible(plot_pred))
-  expect_true(expect_visible(plot_mat))
-  expect_true(expect_visible(plot_cor))
-  expect_true(expect_visible(plot_both))
-})
