@@ -1,4 +1,4 @@
-context("Check whether PPS calculations are correct")
+context("PPS calculations are correct")
 
 test_that("PPS is between zero and one", {
   set.seed(1)

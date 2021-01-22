@@ -1,4 +1,4 @@
-context("Check whether column identification works")
+context("Column identification works")
 
 test_that("ID columns are identified", {
 
