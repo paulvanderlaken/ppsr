@@ -54,8 +54,10 @@ Currently, the `ppsr` package calculates PPS by default:
 The `ppsr` package has three main functions that compute PPS:
 
   - `score()` - which computes an x-y PPS
-  - `score_predictors()` - which computes X-y PPS
-  - `score_matrix()` - which computes X-Y PPS
+  - `score_predictors()` - which computes all X-y PPS
+  - `score_df()` - which computes all X-Y PPS
+  - `score_matrix()` - which computes all X-Y PPS, and shows them in a
+    matrix
 
 where `x` and `y` represent an individual feature/target, and `X` and
 `Y` represent all features/targets in a given dataset.
@@ -100,53 +102,89 @@ ppsr::score(iris, x = 'Sepal.Length', y = 'Sepal.Width')
 
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
-#> $Sepal.Length
-#> [1] 0.5591864
-#> 
-#> $Sepal.Width
-#> [1] 0.3134401
-#> 
-#> $Petal.Length
-#> [1] 0.916758
-#> 
-#> $Petal.Width
-#> [1] 0.9398532
-#> 
-#> $Species
-#> [1] 1
+#>              x       y                       result_type       pps      metric
+#> 1 Sepal.Length Species            predictive power score 0.5591864 F1_weighted
+#> 2  Sepal.Width Species            predictive power score 0.3134401 F1_weighted
+#> 3 Petal.Length Species            predictive power score 0.9167580 F1_weighted
+#> 4  Petal.Width Species            predictive power score 0.9398532 F1_weighted
+#> 5      Species Species predictor and target are the same 1.0000000        <NA>
+#>   baseline_score model_score cv_folds seed algorithm     model_type
+#> 1      0.3176487   0.7028029        5    1      tree classification
+#> 2      0.3176487   0.5377587        5    1      tree classification
+#> 3      0.3176487   0.9404972        5    1      tree classification
+#> 4      0.3176487   0.9599148        5    1      tree classification
+#> 5             NA          NA       NA   NA      <NA>           <NA>
 ```
 
 ``` r
 ppsr::score_matrix(df = iris)
 #>              Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
-#> Sepal.Length   1.00000000  0.06790301    0.6160836   0.4873531 0.5591864
-#> Sepal.Width    0.04632352  1.00000000    0.2426385   0.2012411 0.3134401
-#> Petal.Length   0.54913985  0.23769911    1.0000000   0.7437845 0.9167580
-#> Petal.Width    0.41276679  0.21746588    0.7917512   1.0000000 0.9398532
-#> Species        0.40754872  0.20128762    0.7904907   0.7561113 1.0000000
+#> Sepal.Length   1.00000000  0.04632352    0.5491398   0.4127668 0.4075487
+#> Sepal.Width    0.06790301  1.00000000    0.2376991   0.2174659 0.2012876
+#> Petal.Length   0.61608360  0.24263851    1.0000000   0.7917512 0.7904907
+#> Petal.Width    0.48735314  0.20124105    0.7437845   1.0000000 0.7561113
+#> Species        0.55918638  0.31344008    0.9167580   0.9398532 1.0000000
 ```
 
 ## Visualizing PPS
 
-Subsequently, there are two main functions that wrap around these
+Subsequently, there are three main functions that wrap around these
 computational functions to help you visualize your PPS using `ggplot2`:
 
-  - `visualize_predictors()` - producing a barplot of all X-y PPS
-  - `visualize_matrix()` - producing a heatmap of all X-Y PPS
+  - `visualize_pps()` - producing a barplot of all X-y PPS, or a heatmap
+    of all X-Y PPS
+  - `visualize_correlations()` - producing a heatmap of all X-Y
+    correlations
+  - `visualize_both()` - produces two heatmaps of the PPS and
+    correlations of all X-Y PPS side-by-side
 
 Examples:
 
 ``` r
-ppsr::visualize_predictors(df = iris, y = 'Species')
+# If you specify the target variable (y), you get a barplot of its predictors
+ppsr::visualize_pps(df = iris, y = 'Species')
 ```
 
 ![](man/README/PPS-barplot-1.png)<!-- -->
 
 ``` r
-ppsr::visualize_matrix(df = iris)
+# If you do not specify `y`, you get a PPS matrix visualized as a heatmap 
+ppsr::visualize_pps(df = iris)
 ```
 
 ![](man/README/PPS-heatmap-1.png)<!-- -->
+
+``` r
+ppsr::visualize_correlations(df = iris)
+```
+
+![](man/README/correlation-heatmap-1.png)<!-- -->
+
+``` r
+ppsr::visualize_both(df = iris)
+#> TableGrob (1 x 2) "arrange": 2 grobs
+#>   z     cells    name           grob
+#> 1 1 (1-1,1-1) arrange gtable[layout]
+#> 2 2 (1-1,2-2) arrange gtable[layout]
+```
+
+You can change the colors of the visualizations using the functions
+arguments. There are also arguments to change the color of the text
+scores.
+
+Furthermore, the functions return `ggplot2` objects, so you can easily
+change the theme and other settings.
+
+``` r
+ppsr::visualize_pps(df = iris,
+                    color_value_high = 'red', 
+                    color_value_low = 'yellow',
+                    color_text = 'black') +
+  ggplot2::theme_classic() +
+  ggplot2::labs(title = 'Add your own title', caption = 'Or a nice caption')
+```
+
+![](man/README/custom-plot-1.png)<!-- -->
 
 ## Open issues & development
 

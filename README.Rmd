@@ -91,7 +91,7 @@ Examples:
 ppsr::visualize_pps(df = iris, y = 'Species')
 ```
 
-```{r, PPS-barplot}
+```{r, PPS-heatmap}
 # If you do not specify `y`, you get a PPS matrix visualized as a heatmap 
 ppsr::visualize_pps(df = iris)
 ```
@@ -108,11 +108,11 @@ You can change the colors of the visualizations using the functions arguments.
 There are also arguments to change the color of the text scores.
 
 Furthermore, the functions return `ggplot2` objects, so you can easily change the theme and other settings.
-```{r, PPS-barplot}
+```{r, custom-plot}
 ppsr::visualize_pps(df = iris,
-                           color_value_high = 'red', 
-                           color_value_low = 'yellow',
-                           color_text = 'black') +
+                    color_value_high = 'red', 
+                    color_value_low = 'yellow',
+                    color_text = 'black') +
   ggplot2::theme_classic() +
   ggplot2::labs(title = 'Add your own title', caption = 'Or a nice caption')
 ```

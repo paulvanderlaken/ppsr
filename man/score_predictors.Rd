@@ -16,7 +16,7 @@ score_predictors(df, y, ...)
 \item{...}{any arguments passed to \code{\link{score}}}
 }
 \value{
-list of float scalars, representing predictive power scores
+dataframe, detailed report on predictive power scores
 }
 \description{
 Calculate predictive power scores for y

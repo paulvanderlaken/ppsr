@@ -11,7 +11,8 @@ score(
   algorithm = "tree",
   metrics = list(regression = "MAE", classification = "F1_weighted"),
   cv_folds = 5,
-  seed = 1
+  seed = 1,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ regression and classification problems}
 \item{cv_folds}{float, number of cross-validation folds}
 
 \item{seed}{float, seed to ensure reproducibility/stability}
+
+\item{verbose}{bool, whether to print notifications}
 }
 \value{
 float,  representing predictive power score
