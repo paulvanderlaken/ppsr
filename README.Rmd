@@ -88,12 +88,12 @@ functions to help you visualize your PPS using `ggplot2`:
 Examples:
 ```{r, PPS-barplot}
 # If you specify the target variable (y), you get a barplot of its predictors
-ppsr::visualize_predictors(df = iris, y = 'Species')
+ppsr::visualize_pps(df = iris, y = 'Species')
 ```
 
 ```{r, PPS-barplot}
 # If you do not specify `y`, you get a PPS matrix visualized as a heatmap 
-ppsr::visualize_predictors(df = iris)
+ppsr::visualize_pps(df = iris)
 ```
 
 ```{r, correlation-heatmap}
@@ -109,7 +109,7 @@ There are also arguments to change the color of the text scores.
 
 Furthermore, the functions return `ggplot2` objects, so you can easily change the theme and other settings.
 ```{r, PPS-barplot}
-ppsr::visualize_predictors(df = iris,
+ppsr::visualize_pps(df = iris,
                            color_value_high = 'red', 
                            color_value_low = 'yellow',
                            color_text = 'black') +
