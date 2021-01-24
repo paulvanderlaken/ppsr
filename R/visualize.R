@@ -85,7 +85,7 @@ visualize_correlations = function(df,
                                   color_value_positive = '#08306B',
                                   color_value_negative = '#306B08',
                                   color_text = '#FFFFFF',
-                                  include_missings = TRUE,
+                                  include_missings = FALSE,
                                   ...) {
   df_correlations = score_correlations(df, ...)
 
