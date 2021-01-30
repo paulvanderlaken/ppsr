@@ -186,47 +186,70 @@ score = function(df,
 #'
 #' @inheritParams score
 #' @param ... any arguments passed to \code{\link{score}}
+#' @param do_parallel bool, whether to perform \code{\link{score}} calls in parallel
+#' @param nc numeric, number of cores to use, defaults to maximum minus 1
 #'
 #' @return dataframe, detailed report on predictive power scores
 #' @export
 #'
 #' @examples
-#' score_predictors(df = mtcars, y = 'mpg')
-#'
 #' score_predictors(df = iris, y = 'Species')
-score_predictors = function(df, y, ...) {
-  #TODO implement parallelization here
-  scores = lapply(colnames(df), function(x) {
+#'
+#' score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)
+score_predictors = function(df, y, ..., do_parallel = FALSE, nc = -1) {
+  temp_score = function(x) {
     score(df, x = x, y = y, ...)
-  })
+  }
+  if (do_parallel) {
+    nc = parallel::detectCores()
+    cl = parallel::makeCluster(nc - 1)
+    parallel::clusterExport(cl, varlist = as.list(ls("package:ppsr")))
+    scores = parallel::clusterApply(cl, colnames(df), temp_score)
+    parallel::stopCluster(cl)
+  } else {
+    scores = lapply(colnames(df), temp_score)
+  }
   scores = fill_blanks_in_list(scores)
   scores_df = do.call(rbind.data.frame, scores)
-  rownames(scores_df) = NULL #TODO fix issue with duplicate rownames
+  rownames(scores_df) = NULL
   return(scores_df)
 }
+
 
 #' Calculate predictive power scores for whole dataframe
 #' Iterates through the columns of the dataframe, calculating the predictive power
 #' score for every possible combination of \code{x} and \code{y}.
 #'
 #' @inheritParams score
-#' @param ... any arguments passed to \code{\link{score}}
+#' @inheritParams score_predictors
 #'
 #' @return dataframe, detailed report on predictive power scores
 #' @export
 #'
 #' @examples
 #' score_df(iris)
-score_df = function(df, ...) {
+#'
+#' score_df(mtcars, do_parallel = TRUE)
+score_df = function(df, ..., do_parallel = FALSE, nc = -1) {
   cnames = colnames(df)
-  g = expand.grid(x = cnames, y = cnames, stringsAsFactors = FALSE)
-  #TODO implement parallelization here or make sure to leverage it at lower levels
-  scores = lapply(seq_len(nrow(g)), function(i) {
-    score(df, x = g[['x']][i], y = g[['y']][i], ...)
-  })
+  param_grid = expand.grid(x = cnames, y = cnames, stringsAsFactors = FALSE)
+  temp_score = function(i) {
+    score(df, x = param_grid[['x']][i], y = param_grid[['y']][i], ...)
+  }
+  if (do_parallel) {
+    if (nc == -1) {
+      nc = parallel::detectCores() - 1
+    }
+    cl = parallel::makeCluster(nc)
+    parallel::clusterExport(cl, varlist = as.list(ls("package:ppsr")))
+    scores = parallel::clusterApply(cl, seq_len(nrow(param_grid)), temp_score)
+    parallel::stopCluster(cl)
+  } else {
+    scores = lapply(seq_len(nrow(param_grid)), temp_score)
+  }
   scores = fill_blanks_in_list(scores)
   df_scores = do.call(rbind.data.frame, scores)
-  rownames(df_scores) = NULL #TODO fix issue with duplicate rownames
+  rownames(df_scores) = NULL
   return(df_scores)
 }
 
@@ -238,13 +261,16 @@ score_df = function(df, ...) {
 #' Note that the targets are on the rows, and the features on the columns.
 #'
 #' @inheritParams score
-#' @param ... any arguments passed to \code{\link{score}}
+#' @param ... any arguments passed to \code{\link{score_df}},
+#'     some of which will be passed on to \code{\link{score}}
 #'
 #' @return matrix of floats, representing predictive power scores
 #' @export
 #'
 #' @examples
 #' score_matrix(iris)
+#'
+#' score_matrix(mtcars, do_parallel = TRUE)
 score_matrix = function(df, ...) {
   df_scores = score_df(df, ...)
   var_uq = unique(df_scores[['x']])
