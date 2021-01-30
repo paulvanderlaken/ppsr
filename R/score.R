@@ -70,7 +70,7 @@ score = function(df,
 
   # force binary numerics, boolean/logicals, and characters/texts to factor
   if (is_binary_numeric(df[[y]]) | is.logical(df[[y]]) | is.character(df[[y]])) {
-    if(verbose) cat('Note: ', y, ' was forced from ', typeof(df[[y]]), ' to factor.\n')
+    if(verbose) cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to factor.\n')
     df[[y]] = as.factor(df[[y]])
   }
 
