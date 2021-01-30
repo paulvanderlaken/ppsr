@@ -1,5 +1,3 @@
-context("Visualizations work")
-
 test_that("Functions produce ggplot2 lists", {
   plot_pred = visualize_pps(iris, y = 'Species')
   plot_mat = visualize_pps(iris)

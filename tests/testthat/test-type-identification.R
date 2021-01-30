@@ -1,5 +1,3 @@
-context("Column identification works")
-
 test_that("ID columns are identified", {
 
   df = mtcars
