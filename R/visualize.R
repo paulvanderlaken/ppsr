@@ -38,6 +38,8 @@ correlation_breaks = function() {
 #' visualize_pps(iris, y = 'Species')
 #'
 #' visualize_pps(iris)
+#'
+#' \dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
 visualize_pps = function(df,
                          y = NULL,
                          color_value_high = '#08306B',
@@ -83,9 +85,9 @@ visualize_pps = function(df,
 #' visualize_correlations(iris)
 visualize_correlations = function(df,
                                   color_value_positive = '#08306B',
-                                  color_value_negative = '#306B08',
+                                  color_value_negative = '#8b0000',
                                   color_text = '#FFFFFF',
-                                  include_missings = TRUE,
+                                  include_missings = FALSE,
                                   ...) {
   df_correlations = score_correlations(df, ...)
 
@@ -123,9 +125,11 @@ visualize_correlations = function(df,
 #'
 #' @examples
 #' visualize_both(iris)
+#'
+#' \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
 visualize_both = function(df,
                           color_value_positive = '#08306B',
-                          color_value_negative = '#306B08',
+                          color_value_negative = '#8b0000',
                           color_text = '#FFFFFF',
                           include_missings = TRUE,
                           nrow = 1,
@@ -138,7 +142,7 @@ visualize_both = function(df,
                                     color_value_positive = color_value_positive,
                                     color_value_negative = color_value_negative,
                                     color_text = color_text,
-                                    include_missings = TRUE)
+                                    include_missings = include_missings)
   return(gridExtra::grid.arrange(plot_pps, plot_cor, nrow = nrow))
 }
 

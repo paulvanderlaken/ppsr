@@ -184,6 +184,39 @@ ppsr::visualize_pps(df = iris,
 
 ![](man/README/custom-plot-1.png)<!-- -->
 
+## Parallelization
+
+The number of predictive models that need to be built to fill a PPS
+matrix of a dataframe increase exponentially with every column in that
+dataframe.
+
+For high dimensional datasets, it can thus takes a decent amount of time
+to generate the associated PPS matrix.
+
+One way to speed matters up is to use the `ppsr::score_predictors()`
+function and to focus on the predictability of a single target/dependent
+variable of interest.
+
+Yet, since version `0.0.1`, all `ppsr::score_*` and `pssr::visualize_*`
+functions now take in two arguments that facilitate parallel computing.
+You can parallelize `ppsr`’s computations by setting the `do_parallel`
+argument to `TRUE`. If done so, a cluster will be created using the
+`parallel` package. By default, this cluster will use the maximum number
+of cores (see `parallel::detectCores()`) minus 1.
+
+However, with the second argument – `n_cores` – you can manually specify
+the number of cores you want `ppsr` to use.
+
+Examples:
+
+``` r
+ppsr::score_df(df = mtcars, do_parallel = TRUE)
+```
+
+``` r
+ppsr::visualize_pps(df = iris, do_parallel = TRUE, n_cores = 3)
+```
+
 ## Open issues & development
 
 PPS is a relatively young concept, and likewise the `ppsr` package is

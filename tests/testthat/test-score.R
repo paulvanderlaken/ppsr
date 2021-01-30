@@ -1,5 +1,3 @@
-context("PPS calculations are correct")
-
 test_that("PPS is between zero and one", {
   set.seed(1)
   n = 100
@@ -48,4 +46,64 @@ test_that("The calculated PPS is stable", {
 
   expect_equal(pps1.1, pps1.2)
   expect_equal(pps2.1, pps2.2)
+})
+
+
+test_that("Classification works for characters, booleans, and binary numerics", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.logical(x > 0),
+    y2 = as.numeric(x > 0),
+    y3 = sample(c('a', 'b', 'c'), size = n, replace = TRUE)
+  )
+
+  result1 = score(df, 'x', 'y1', verbose = FALSE)
+  result2 = score(df, 'x', 'y2', verbose = FALSE)
+  result3 = score(df, 'x', 'y3', verbose = FALSE)
+
+
+  expect_equal(result1$model_type, 'classification')
+  expect_equal(result2$model_type, 'classification')
+  expect_equal(result3$model_type, 'classification')
+})
+
+
+test_that("Regression works for doubles and integers", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x)),
+    y2 = as.numeric(x + rnorm(n = n))
+  )
+
+  result1 = score(df, 'x', 'y1', verbose = FALSE)
+  result2 = score(df, 'x', 'y2', verbose = FALSE)
+
+  expect_equal(result1$model_type, 'regression')
+  expect_equal(result1$model_type, 'regression')
+})
+
+
+
+test_that("Scoring functions work as expected", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x))
+  )
+  result = score(df, 'x', 'y1')
+  result_predictors = score_predictors(df, 'y1')
+  result_df = score_df(df)
+  expect_true(is.list(result))
+  expect_true(is.data.frame(result_predictors))
+  expect_equal(nrow(result_predictors), ncol(df))
+  expect_true(is.data.frame(result_df))
+  expect_equal(nrow(result_df), ncol(df) ^ 2)
 })

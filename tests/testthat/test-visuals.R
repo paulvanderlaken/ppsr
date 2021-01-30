@@ -1,6 +1,6 @@
-context("Visualizations work")
-
 test_that("Functions produce ggplot2 lists", {
+  skip_on_cran()
+
   plot_pred = visualize_pps(iris, y = 'Species')
   plot_mat = visualize_pps(iris)
   plot_cor = visualize_correlations(iris)

@@ -7,9 +7,9 @@
 visualize_correlations(
   df,
   color_value_positive = "#08306B",
-  color_value_negative = "#306B08",
+  color_value_negative = "#8b0000",
   color_text = "#FFFFFF",
-  include_missings = TRUE,
+  include_missings = FALSE,
   ...
 )
 }
