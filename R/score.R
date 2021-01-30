@@ -195,14 +195,16 @@ score = function(df,
 #' @examples
 #' score_predictors(df = iris, y = 'Species')
 #'
-#' score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)
+#' \dontrun{score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)}
 score_predictors = function(df, y, ..., do_parallel = FALSE, nc = -1) {
   temp_score = function(x) {
     score(df, x = x, y = y, ...)
   }
   if (do_parallel) {
-    nc = parallel::detectCores()
-    cl = parallel::makeCluster(nc - 1)
+    if (nc == -1) {
+      nc = parallel::detectCores() - 1
+    }
+    cl = parallel::makeCluster(nc)
     parallel::clusterExport(cl, varlist = as.list(ls("package:ppsr")))
     scores = parallel::clusterApply(cl, colnames(df), temp_score)
     parallel::stopCluster(cl)
@@ -228,8 +230,7 @@ score_predictors = function(df, y, ..., do_parallel = FALSE, nc = -1) {
 #'
 #' @examples
 #' score_df(iris)
-#'
-#' score_df(mtcars, do_parallel = TRUE)
+#' \dontrun{score_df(mtcars, do_parallel = TRUE)}
 score_df = function(df, ..., do_parallel = FALSE, nc = -1) {
   cnames = colnames(df)
   param_grid = expand.grid(x = cnames, y = cnames, stringsAsFactors = FALSE)
@@ -269,8 +270,7 @@ score_df = function(df, ..., do_parallel = FALSE, nc = -1) {
 #'
 #' @examples
 #' score_matrix(iris)
-#'
-#' score_matrix(mtcars, do_parallel = TRUE)
+#' \dontrun{score_matrix(mtcars, do_parallel = TRUE)}
 score_matrix = function(df, ...) {
   df_scores = score_df(df, ...)
   var_uq = unique(df_scores[['x']])
