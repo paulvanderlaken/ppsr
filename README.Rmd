@@ -21,12 +21,9 @@ knitr::opts_chunk$set(
 
 # `ppsr` - Predictive Power Score
 
-`ppsr` is the R implementation of [8080labs Predictive Power Score](https://github.com/8080labs/ppscore).
+`ppsr` is the R implementation of [8080labs' Predictive Power Score](https://github.com/8080labs/ppscore).
 
-The Predictive Power Score is an asymmetric, data-type-agnostic score that can 
-detect linear or non-linear relationships between two columns. 
-The score ranges from 0 (no predictive power) to 1 (perfect predictive power). 
-It can be used as an alternative to the correlation (matrix).
+The PPS is an asymmetric, data-type-agnostic score that can detect linear or non-linear relationships between two columns. The score ranges from 0 (no predictive power) to 1 (perfect predictive power). It can be used for data exploration purposes, as a complement to the correlation (matrix).
 
 Read more about the (dis)advantages of the Predictive Power Score in [this blog post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598).
 
