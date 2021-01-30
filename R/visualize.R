@@ -39,7 +39,7 @@ correlation_breaks = function() {
 #'
 #' visualize_pps(iris)
 #'
-#' visualize_pps(mtcars, do_parallel = TRUE)
+#' \dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
 visualize_pps = function(df,
                          y = NULL,
                          color_value_high = '#08306B',
@@ -126,7 +126,7 @@ visualize_correlations = function(df,
 #' @examples
 #' visualize_both(iris)
 #'
-#' visualize_both(mtcars, do_parallel = TRUE)
+#' \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
 visualize_both = function(df,
                           color_value_positive = '#08306B',
                           color_value_negative = '#306B08',
