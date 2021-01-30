@@ -6,7 +6,7 @@
 Calculates the predictive power scores for the specified \code{y} variable
 using every column in the dataset as \code{x}, including itself.}
 \usage{
-score_predictors(df, y, ..., do_parallel = FALSE, nc = -1)
+score_predictors(df, y, ..., do_parallel = FALSE, n_cores = -1)
 }
 \arguments{
 \item{df}{data.frame containing columns for x and y}
@@ -17,7 +17,7 @@ score_predictors(df, y, ..., do_parallel = FALSE, nc = -1)
 
 \item{do_parallel}{bool, whether to perform \code{\link{score}} calls in parallel}
 
-\item{nc}{numeric, number of cores to use, defaults to maximum minus 1}
+\item{n_cores}{numeric, number of cores to use, defaults to maximum minus 1}
 }
 \value{
 dataframe, detailed report on predictive power scores

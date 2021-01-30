@@ -187,7 +187,7 @@ score = function(df,
 #' @inheritParams score
 #' @param ... any arguments passed to \code{\link{score}}
 #' @param do_parallel bool, whether to perform \code{\link{score}} calls in parallel
-#' @param nc numeric, number of cores to use, defaults to maximum minus 1
+#' @param n_cores numeric, number of cores to use, defaults to maximum minus 1
 #'
 #' @return dataframe, detailed report on predictive power scores
 #' @export
@@ -196,15 +196,15 @@ score = function(df,
 #' score_predictors(df = iris, y = 'Species')
 #'
 #' \dontrun{score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)}
-score_predictors = function(df, y, ..., do_parallel = FALSE, nc = -1) {
+score_predictors = function(df, y, ..., do_parallel = FALSE, n_cores = -1) {
   temp_score = function(x) {
     score(df, x = x, y = y, ...)
   }
   if (do_parallel) {
-    if (nc == -1) {
-      nc = parallel::detectCores() - 1
+    if (n_cores == -1) {
+      n_cores = parallel::detectCores() - 1
     }
-    cl = parallel::makeCluster(nc)
+    cl = parallel::makeCluster(n_cores)
     parallel::clusterExport(cl, varlist = as.list(.all_ppsr_functions()))
     scores = parallel::clusterApply(cl, colnames(df), temp_score)
     parallel::stopCluster(cl)
@@ -231,17 +231,17 @@ score_predictors = function(df, y, ..., do_parallel = FALSE, nc = -1) {
 #' @examples
 #' score_df(iris)
 #' \dontrun{score_df(mtcars, do_parallel = TRUE)}
-score_df = function(df, ..., do_parallel = FALSE, nc = -1) {
+score_df = function(df, ..., do_parallel = FALSE, n_cores = -1) {
   cnames = colnames(df)
   param_grid = expand.grid(x = cnames, y = cnames, stringsAsFactors = FALSE)
   temp_score = function(i) {
     score(df, x = param_grid[['x']][i], y = param_grid[['y']][i], ...)
   }
   if (do_parallel) {
-    if (nc == -1) {
-      nc = parallel::detectCores() - 1
+    if (n_cores == -1) {
+      n_cores = parallel::detectCores() - 1
     }
-    cl = parallel::makeCluster(nc)
+    cl = parallel::makeCluster(n_cores)
     parallel::clusterExport(cl, varlist = as.list(.all_ppsr_functions()))
     scores = parallel::clusterApply(cl, seq_len(nrow(param_grid)), temp_score)
     parallel::stopCluster(cl)

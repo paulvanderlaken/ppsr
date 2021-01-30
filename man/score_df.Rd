@@ -6,7 +6,7 @@
 Iterates through the columns of the dataframe, calculating the predictive power
 score for every possible combination of \code{x} and \code{y}.}
 \usage{
-score_df(df, ..., do_parallel = FALSE, nc = -1)
+score_df(df, ..., do_parallel = FALSE, n_cores = -1)
 }
 \arguments{
 \item{df}{data.frame containing columns for x and y}
@@ -15,7 +15,7 @@ score_df(df, ..., do_parallel = FALSE, nc = -1)
 
 \item{do_parallel}{bool, whether to perform \code{\link{score}} calls in parallel}
 
-\item{nc}{numeric, number of cores to use, defaults to maximum minus 1}
+\item{n_cores}{numeric, number of cores to use, defaults to maximum minus 1}
 }
 \value{
 dataframe, detailed report on predictive power scores
