@@ -40,4 +40,6 @@ of the PPS for all X-Y combinations in a dataframe.
 visualize_pps(iris, y = 'Species')
 
 visualize_pps(iris)
+
+\dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
 }
