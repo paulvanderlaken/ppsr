@@ -89,3 +89,42 @@ test_that("Regression works for doubles and integers", {
   expect_equal(result1$model_type, 'regression')
   expect_equal(result1$model_type, 'regression')
 })
+
+
+
+test_that("Scoring functions work as expected", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x))
+  )
+  result = score(df, 'x', 'y1')
+  result_predictors = score_predictors(df, 'y1')
+  result_df = score_df(df)
+  expect_true(is.list(result))
+  expect_true(is.data.frame(result_predictors))
+  expect_equal(nrow(result_predictors), 2)
+  expect_true(is.data.frame(result_df))
+  expect_equal(nrow(result_df), 2 * 2)
+})
+
+
+
+test_that("Parallelization works as expected", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x)),
+    y2 = sample(c('test', 'tset'), size = n, replace = TRUE)
+  )
+  result_predictors = score_predictors(df, 'y1', do_parallel = TRUE)
+  result_df = score_df(df, do_parallel = TRUE)
+  expect_true(is.data.frame(result_predictors))
+  expect_equal(nrow(result_predictors), 2)
+  expect_true(is.data.frame(result_df))
+  expect_equal(nrow(result_df), 2 * 2)
+})
