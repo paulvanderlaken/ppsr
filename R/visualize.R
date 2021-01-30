@@ -85,7 +85,7 @@ visualize_pps = function(df,
 #' visualize_correlations(iris)
 visualize_correlations = function(df,
                                   color_value_positive = '#08306B',
-                                  color_value_negative = '#306B08',
+                                  color_value_negative = '#8b0000',
                                   color_text = '#FFFFFF',
                                   include_missings = FALSE,
                                   ...) {
@@ -129,7 +129,7 @@ visualize_correlations = function(df,
 #' \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
 visualize_both = function(df,
                           color_value_positive = '#08306B',
-                          color_value_negative = '#306B08',
+                          color_value_negative = '#8b0000',
                           color_text = '#FFFFFF',
                           include_missings = TRUE,
                           nrow = 1,
