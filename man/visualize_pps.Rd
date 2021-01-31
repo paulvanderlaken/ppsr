@@ -9,7 +9,7 @@ visualize_pps(
   y = NULL,
   color_value_high = "#08306B",
   color_value_low = "#FFFFFF",
-  color_text = "#000000",
+  color_text = "#FFFFFF",
   ...
 )
 }
@@ -39,7 +39,7 @@ of the PPS for all X-Y combinations in a dataframe.
 \examples{
 visualize_pps(iris, y = 'Species')
 
-visualize_pps(iris)
+\dontrun{visualize_pps(iris)}
 
 \dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
 }

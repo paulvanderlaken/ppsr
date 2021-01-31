@@ -54,7 +54,7 @@ Currently, the `ppsr` package calculates PPS by default:
 
 ## Usage
 
-The `ppsr` package has three main functions that compute PPS:
+The `ppsr` package has four main functions that compute PPS:
 
   - `score()` - which computes an x-y PPS
   - `score_predictors()` - which computes all X-y PPS

@@ -37,14 +37,14 @@ correlation_breaks = function() {
 #' @examples
 #' visualize_pps(iris, y = 'Species')
 #'
-#' visualize_pps(iris)
+#' \dontrun{visualize_pps(iris)}
 #'
 #' \dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
 visualize_pps = function(df,
                          y = NULL,
                          color_value_high = '#08306B',
                          color_value_low = '#FFFFFF',
-                         color_text = '#000000',
+                         color_text = '#FFFFFF',
                          ...) {
   if (is.null(y)) {
     p = ggplot2::ggplot(score_df(df, ...), ggplot2::aes(x = x, y = y)) +
@@ -124,7 +124,7 @@ visualize_correlations = function(df,
 #' @export
 #'
 #' @examples
-#' visualize_both(iris)
+#' \dontrun{visualize_both(iris)}
 #'
 #' \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
 visualize_both = function(df,
