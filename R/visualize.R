@@ -37,7 +37,7 @@ correlation_breaks = function() {
 #' @examples
 #' visualize_pps(iris, y = 'Species')
 #'
-#' visualize_pps(iris)
+#' \dontrun{visualize_pps(iris)}
 #'
 #' \dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
 visualize_pps = function(df,
@@ -124,7 +124,7 @@ visualize_correlations = function(df,
 #' @export
 #'
 #' @examples
-#' visualize_both(iris)
+#' \dontrun{visualize_both(iris)}
 #'
 #' \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
 visualize_both = function(df,
