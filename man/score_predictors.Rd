@@ -28,7 +28,6 @@ Calculates the predictive power scores for the specified \code{y} variable
 using every column in the dataset as \code{x}, including itself.
 }
 \examples{
-score_predictors(df = iris, y = 'Species')
-
+\dontrun{score_predictors(df = iris, y = 'Species')}
 \dontrun{score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)}
 }

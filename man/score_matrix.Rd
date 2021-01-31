@@ -21,6 +21,6 @@ matrix of floats, representing predictive power scores
 Note that the targets are on the rows, and the features on the columns.
 }
 \examples{
-score_matrix(iris)
+\dontrun{score_matrix(iris)}
 \dontrun{score_matrix(mtcars, do_parallel = TRUE)}
 }

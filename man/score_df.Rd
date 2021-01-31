@@ -26,6 +26,6 @@ Iterates through the columns of the dataframe, calculating the predictive power
 score for every possible combination of \code{x} and \code{y}.
 }
 \examples{
-score_df(iris)
+\dontrun{score_df(iris)}
 \dontrun{score_df(mtcars, do_parallel = TRUE)}
 }
