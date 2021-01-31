@@ -1,24 +1,27 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# `ppsr` - Predictive Power Score
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/paulvanderlaken/ppsr/workflows/R-CMD-check/badge.svg)](https://github.com/paulvanderlaken/ppsr/actions)
 <!-- badges: end -->
 
-# `ppsr` - Predictive Power Score
+`ppsr` is the R implementation of the Predictive Power Score.
 
-`ppsr` is the R implementation of [8080labs Predictive Power
-Score](https://github.com/8080labs/ppscore).
-
-The Predictive Power Score is an asymmetric, data-type-agnostic score
-that can detect linear or non-linear relationships between two columns.
-The score ranges from 0 (no predictive power) to 1 (perfect predictive
-power). It can be used as an alternative to the correlation (matrix).
+The PPS is an asymmetric, data-type-agnostic score that can detect
+linear or non-linear relationships between two columns. The score ranges
+from 0 (no predictive power) to 1 (perfect predictive power). It can be
+used for data exploration purposes, as a complement to the correlation
+(matrix).
 
 Read more about the (dis)advantages of the Predictive Power Score in
 [this blog
 post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598).
+
+This R package was inspired by 8080labs’ Python package
+[`ppscore`](https://github.com/8080labs/ppscore).
 
 ## Installation
 
@@ -145,26 +148,26 @@ Examples:
 ppsr::visualize_pps(df = iris, y = 'Species')
 ```
 
-![](man/README/PPS-barplot-1.png)<!-- -->
+![](man/figures/README-PPS-barplot-1.png)<!-- -->
 
 ``` r
 # If you do not specify `y`, you get a PPS matrix visualized as a heatmap 
 ppsr::visualize_pps(df = iris)
 ```
 
-![](man/README/PPS-heatmap-1.png)<!-- -->
+![](man/figures/README-PPS-heatmap-1.png)<!-- -->
 
 ``` r
 ppsr::visualize_correlations(df = iris)
 ```
 
-![](man/README/correlation-heatmap-1.png)<!-- -->
+![](man/figures/README-correlation-heatmap-1.png)<!-- -->
 
 ``` r
 ppsr::visualize_both(df = iris)
 ```
 
-![](man/README/sbs-heatmap-1.png)<!-- -->
+![](man/figures/README-sbs-heatmap-1.png)<!-- -->
 
 You can change the colors of the visualizations using the functions
 arguments. There are also arguments to change the color of the text
@@ -182,7 +185,7 @@ ppsr::visualize_pps(df = iris,
   ggplot2::labs(title = 'Add your own title', caption = 'Or a nice caption')
 ```
 
-![](man/README/custom-plot-1.png)<!-- -->
+![](man/figures/README-custom-plot-1.png)<!-- -->
 
 ## Parallelization
 
