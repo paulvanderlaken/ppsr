@@ -50,7 +50,6 @@ score = function(df,
     return(generate_invalid_report(x, y, 'no non-missing records', 1))
   }
 
-
   # an ID variable has no predictive power
   if (is_id(df[[y]])) {
     return(generate_invalid_report(x, y, 'target is id', 0))
@@ -193,8 +192,7 @@ score = function(df,
 #' @export
 #'
 #' @examples
-#' score_predictors(df = iris, y = 'Species')
-#'
+#' \dontrun{score_predictors(df = iris, y = 'Species')}
 #' \dontrun{score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)}
 score_predictors = function(df, y, ..., do_parallel = FALSE, n_cores = -1) {
   temp_score = function(x) {
@@ -229,7 +227,7 @@ score_predictors = function(df, y, ..., do_parallel = FALSE, n_cores = -1) {
 #' @export
 #'
 #' @examples
-#' score_df(iris)
+#' \dontrun{score_df(iris)}
 #' \dontrun{score_df(mtcars, do_parallel = TRUE)}
 score_df = function(df, ..., do_parallel = FALSE, n_cores = -1) {
   cnames = colnames(df)
@@ -269,7 +267,7 @@ score_df = function(df, ..., do_parallel = FALSE, n_cores = -1) {
 #' @export
 #'
 #' @examples
-#' score_matrix(iris)
+#' \dontrun{score_matrix(iris)}
 #' \dontrun{score_matrix(mtcars, do_parallel = TRUE)}
 score_matrix = function(df, ...) {
   df_scores = score_df(df, ...)
