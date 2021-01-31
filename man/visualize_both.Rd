@@ -36,7 +36,7 @@ grid with two ggplot2 heatmap visualizations
 Visualize the PPS & correlation matrices
 }
 \examples{
-visualize_both(iris)
+\dontrun{visualize_both(iris)}
 
 \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
 }
