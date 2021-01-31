@@ -44,7 +44,7 @@ visualize_pps = function(df,
                          y = NULL,
                          color_value_high = '#08306B',
                          color_value_low = '#FFFFFF',
-                         color_text = '#000000',
+                         color_text = '#FFFFFF',
                          ...) {
   if (is.null(y)) {
     p = ggplot2::ggplot(score_df(df, ...), ggplot2::aes(x = x, y = y)) +
