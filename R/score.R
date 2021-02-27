@@ -2,16 +2,28 @@
 #' Calculate predictive power score for x on y
 #'
 #' @param df data.frame containing columns for x and y
-#' @param x character, column name of predictor variable
-#' @param y character, column name of target variable
-#' @param algorithm character
+#' @param x string, column name of predictor variable
+#' @param y string, column name of target variable
+#' @param algorithm string, see \code{available_algorithms()}
 #' @param metrics named list of \code{eval_*} functions used for
-#'     regression and classification problems
+#'     regression and classification problems, see \code{available_evaluation_metrics()}
 #' @param cv_folds float, number of cross-validation folds
 #' @param seed float, seed to ensure reproducibility/stability
-#' @param verbose bool, whether to print notifications
+#' @param verbose boolean, whether to print notifications
 #'
-#' @return float,  representing predictive power score
+#' @return a named list, potentially containing \describe{
+#'     \item{x}{the name of the predictor variable}
+#'     \item{y}{the name of the target variable}
+#'     \item{result_type}{text showing how to interpret the resulting score}
+#'     \item{pps}{the predictive power score}
+#'     \item{metric}{the evaluation metric used to compute the PPS}
+#'     \item{baseline_score}{the score of a naive model on the evaluation metric}
+#'     \item{model_score}{the score of the predictive model on the evaluation metric}
+#'     \item{cv_folds}{how many cross-validation folds were used}
+#'     \item{seed}{the seed that was set}
+#'     \item{algorithm}{text shwoing what algorithm was used}
+#'     \item{model_type}{text showing whether classification or regression was used}
+#' }
 #' @export
 #'
 #' @examples
@@ -68,8 +80,19 @@ score = function(df,
   }
 
   # force binary numerics, boolean/logicals, and characters/texts to factor
-  if (is_binary_numeric(df[[y]]) | is.logical(df[[y]]) | is.character(df[[y]])) {
-    if(verbose) cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to factor.\n')
+  if (algorithm == 'glm') {
+    if (is.logical(df[[y]])) {
+      if(verbose) {
+        cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to integer.\n')
+      }
+      df[[y]] = as.integer(df[[y]])
+    } else if (is.character(df[[y]])) {
+      return(generate_invalid_report(x, y, 'algorithm does not support multinomial classification', NA))
+    }
+  } else if (is_binary_numeric(df[[y]]) | is.logical(df[[y]]) | is.character(df[[y]])) {
+    if(verbose) {
+      cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to factor.\n')
+    }
     df[[y]] = as.factor(df[[y]])
   }
 
@@ -81,26 +104,28 @@ score = function(df,
     stop('There are more cv_folds than unique ', x, '-', y, ' values. Pick a smaller number of folds.')
   }
   n_per_fold = length(df[[y]]) / cv_folds
-  if (n_per_fold < 10) {
+  fold_size_warning_threshold = 10
+  if (n_per_fold < fold_size_warning_threshold) {
     warning('There are on average only ', n_per_fold, ' observations in each test-set',
             ' for the ', x, '-', y, ' relationship.\n',
             'Model performance will be highly instable. Fewer cv_folds are advised.')
   }
 
-
-
   # set seed to ensure stability of results
   set.seed(seed)
 
   ## set up statistical model
-  # TODO implement other models
-  if (algorithm == 'tree') {
-    model = parsnip::decision_tree()
-    model = parsnip::set_engine(model, "rpart")
-  }
   # determine type of model we are dealing with
   type = ifelse(is.numeric(df[[y]]), 'regression', 'classification')
+
+  # set engine based on algorithm
+  engine = available_algorithms()[[algorithm]]
+  model = engine(type)
+
+  # set mode based on model type
   model = parsnip::set_mode(object = model, mode = type)
+
+  # TODO implement possibility to feed in udf as evaluation metrics
   # get the appropriate evaluation function
   # check if metrics are provided
   if (! 'regression' %in% names(metrics)) {
@@ -127,9 +152,12 @@ score = function(df,
     })
   } else if (cv_folds == 1) {
     folds = list(
-      fold = 1,
-      test = df,
-      train = df)
+      list(
+        fold = 1,
+        test = df,
+        train = df
+      )
+    )
   }
 
   ## evaluate model in each cross validation
@@ -179,6 +207,7 @@ score = function(df,
   return(report)
 }
 
+
 #' Calculate predictive power scores for y
 #' Calculates the predictive power scores for the specified \code{y} variable
 #' using every column in the dataset as \code{x}, including itself.
@@ -188,12 +217,25 @@ score = function(df,
 #' @param do_parallel bool, whether to perform \code{\link{score}} calls in parallel
 #' @param n_cores numeric, number of cores to use, defaults to maximum minus 1
 #'
-#' @return dataframe, detailed report on predictive power scores
+#' @return a data.frame containing \describe{
+#'     \item{x}{the name of the predictor variable}
+#'     \item{y}{the name of the target variable}
+#'     \item{result_type}{text showing how to interpret the resulting score}
+#'     \item{pps}{the predictive power score}
+#'     \item{metric}{the evaluation metric used to compute the PPS}
+#'     \item{baseline_score}{the score of a naive model on the evaluation metric}
+#'     \item{model_score}{the score of the predictive model on the evaluation metric}
+#'     \item{cv_folds}{how many cross-validation folds were used}
+#'     \item{seed}{the seed that was set}
+#'     \item{algorithm}{text shwoing what algorithm was used}
+#'     \item{model_type}{text showing whether classification or regression was used}
+#' }
+#'
 #' @export
 #'
 #' @examples
-#' \dontrun{score_predictors(df = iris, y = 'Species')}
-#' \dontrun{score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE)}
+#' \donttest{score_predictors(df = iris, y = 'Species')}
+#' \donttest{score_predictors(df = mtcars, y = 'mpg', do_parallel = TRUE, n_cores = 2)}
 score_predictors = function(df, y, ..., do_parallel = FALSE, n_cores = -1) {
   temp_score = function(x) {
     score(df, x = x, y = y, ...)
@@ -223,12 +265,24 @@ score_predictors = function(df, y, ..., do_parallel = FALSE, n_cores = -1) {
 #' @inheritParams score
 #' @inheritParams score_predictors
 #'
-#' @return dataframe, detailed report on predictive power scores
+#' @return a data.frame containing \describe{
+#'     \item{x}{the name of the predictor variable}
+#'     \item{y}{the name of the target variable}
+#'     \item{result_type}{text showing how to interpret the resulting score}
+#'     \item{pps}{the predictive power score}
+#'     \item{metric}{the evaluation metric used to compute the PPS}
+#'     \item{baseline_score}{the score of a naive model on the evaluation metric}
+#'     \item{model_score}{the score of the predictive model on the evaluation metric}
+#'     \item{cv_folds}{how many cross-validation folds were used}
+#'     \item{seed}{the seed that was set}
+#'     \item{algorithm}{text shwoing what algorithm was used}
+#'     \item{model_type}{text showing whether classification or regression was used}
+#' }
 #' @export
 #'
 #' @examples
-#' \dontrun{score_df(iris)}
-#' \dontrun{score_df(mtcars, do_parallel = TRUE)}
+#' \donttest{score_df(iris)}
+#' \donttest{score_df(mtcars, do_parallel = TRUE, n_cores = 2)}
 score_df = function(df, ..., do_parallel = FALSE, n_cores = -1) {
   cnames = colnames(df)
   param_grid = expand.grid(x = cnames, y = cnames, stringsAsFactors = FALSE)
@@ -263,12 +317,12 @@ score_df = function(df, ..., do_parallel = FALSE, n_cores = -1) {
 #' @param ... any arguments passed to \code{\link{score_df}},
 #'     some of which will be passed on to \code{\link{score}}
 #'
-#' @return matrix of floats, representing predictive power scores
+#' @return a matrix of numeric values, representing predictive power scores
 #' @export
 #'
 #' @examples
-#' \dontrun{score_matrix(iris)}
-#' \dontrun{score_matrix(mtcars, do_parallel = TRUE)}
+#' \donttest{score_matrix(iris)}
+#' \donttest{score_matrix(mtcars, do_parallel = TRUE, n_cores=2)}
 score_matrix = function(df, ...) {
   df_scores = score_df(df, ...)
   var_uq = unique(df_scores[['x']])
@@ -289,7 +343,7 @@ score_matrix = function(df, ...) {
 #' @param df data.frame containing columns for x and y
 #' @param ... arguments to pass to \code{stats::cor()}
 #'
-#' @return data.frame with x-y correlation coefficients
+#' @return a data.frame with x-y correlation coefficients
 #' @export
 #'
 #' @examples
@@ -324,15 +378,15 @@ generate_invalid_report = function(x, y, result_type, pps) {
 #' @param model parsnip model object, with mode preset
 #' @param x character, column name of predictor variable
 #' @param y character, column name of target variable
-#' @param metric character, name of evaluation metric being used, see \code{evaluation_functions()}
+#' @param metric character, name of evaluation metric being used, see \code{available_evaluation_metrics()}
 #'
-#' @return float, evaluation score for predictions using naive model
+#' @return numeric vector of length one, evaluation score for predictions using naive model
 score_model = function(train, test, model, x, y, metric) {
   model = parsnip::fit(model,
                        formula = stats::as.formula(paste(y, '~', x)),
                        data = train)
   yhat = stats::predict(model, new_data = test)[[1]]
-  eval_fun = evaluation_functions()[[metric]]
+  eval_fun = available_evaluation_metrics()[[metric]]
   return(eval_fun(y = test[[y]], yhat = yhat))
 }
 
@@ -350,9 +404,9 @@ score_model = function(train, test, model, x, y, metric) {
 #' @param type character, type of model
 #' @param metric character, evaluation metric being used
 #'
-#' @return float, evaluation score for predictions using naive model
+#' @return numeric vector of length one, evaluation score for predictions using naive model
 score_naive = function(train, test, x, y, type, metric) {
-  eval_fun = evaluation_functions()[[metric]]
+  eval_fun = available_evaluation_metrics()[[metric]]
   if (type == 'regression') {
     # naive regression model takes the mean value of the target variable
     naive_predictions = rep(mean(train[[y]]), nrow(test))
@@ -376,7 +430,7 @@ score_naive = function(train, test, x, y, type, metric) {
 #' @param model_score float, the evaluation metric score for a statistical model
 #' @param type character, type of model
 #'
-#' @return float, normalized score
+#' @return numeric vector of length one, normalized score
 normalize_score = function(baseline_score, model_score, type) {
   if (type == 'regression') {
     # normalize the pps by taking the relative improvement over a naive model

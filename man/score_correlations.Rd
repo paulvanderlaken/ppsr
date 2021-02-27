@@ -12,7 +12,7 @@ score_correlations(df, ...)
 \item{...}{arguments to pass to \code{stats::cor()}}
 }
 \value{
-data.frame with x-y correlation coefficients
+a data.frame with x-y correlation coefficients
 }
 \description{
 Calculate correlation coefficients for whole dataframe

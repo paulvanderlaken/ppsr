@@ -15,12 +15,12 @@ score_matrix(df, ...)
 some of which will be passed on to \code{\link{score}}}
 }
 \value{
-matrix of floats, representing predictive power scores
+a matrix of numeric values, representing predictive power scores
 }
 \description{
 Note that the targets are on the rows, and the features on the columns.
 }
 \examples{
-\dontrun{score_matrix(iris)}
-\dontrun{score_matrix(mtcars, do_parallel = TRUE)}
+\donttest{score_matrix(iris)}
+\donttest{score_matrix(mtcars, do_parallel = TRUE, n_cores=2)}
 }

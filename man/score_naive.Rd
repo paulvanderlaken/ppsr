@@ -25,7 +25,7 @@ score_naive(train, test, x, y, type, metric)
 \item{metric}{character, evaluation metric being used}
 }
 \value{
-float, evaluation score for predictions using naive model
+numeric vector of length one, evaluation score for predictions using naive model
 }
 \description{
 Calculate out-of-sample model performance of naive baseline model

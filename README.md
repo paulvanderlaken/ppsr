@@ -8,20 +8,16 @@
 [![R-CMD-check](https://github.com/paulvanderlaken/ppsr/workflows/R-CMD-check/badge.svg)](https://github.com/paulvanderlaken/ppsr/actions)
 <!-- badges: end -->
 
-`ppsr` is the R implementation of the Predictive Power Score.
+`ppsr` is the R implementation of the **Predictive Power Score** (PPS).
 
 The PPS is an asymmetric, data-type-agnostic score that can detect
-linear or non-linear relationships between two columns. The score ranges
-from 0 (no predictive power) to 1 (perfect predictive power). It can be
-used for data exploration purposes, as a complement to the correlation
-(matrix).
+linear or non-linear relationships between two variables. The score
+ranges from 0 (no predictive power) to 1 (perfect predictive power).
 
-Read more about the (dis)advantages of the Predictive Power Score in
-[this blog
+The general concept of PPS is useful for data exploration purposes, in
+the same way correlation analysis is. You can read more about the
+(dis)advantages of using PPS in [this blog
 post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598).
-
-This R package was inspired by 8080labs’ Python package
-[`ppscore`](https://github.com/8080labs/ppscore).
 
 ## Installation
 
@@ -36,59 +32,71 @@ devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 
 ## Computing PPS
 
-You can think of the predictive power score as a framework for a family
-of scores. There is not one single best way to calculate a predictive
-power score. In fact, there are many possible ways to calculate a PPS
-that satisfy the definition mentioned before.
+**PPS** represents a **framework for evaluating predictive validity**.
 
-Currently, the `ppsr` package calculates PPS by default:
+There is *not one single way* of computing a predictive power score, but
+rather there are *many different ways*.
 
-  - Using the default decision tree implementation of the `rpart`
-    package, wrapped by `parsnip`
-  - Using 5 cross-validations
-  - Using F1 scores to evaluate classification models. Scores are
-    normalized relatively to a naive benchmark consisting of predicting
-    the modal or random `y` classes
-  - Using MAE to evaluate regression models. Scores are normalized using
-    relatively to a naive benchmark of predicting the mean `y` value
+You can select different machine learning algorithms, their associated
+parameters, cross-validation schemes, and/or model evaluation metrics.
+Each of these design decisions will affect your model’s predictive
+performance and, in turn, affect the resulting predictive power score
+you compute.
+
+Hence, you can compute many different PPS for any given predictor and
+target variable.
+
+For example, the PPS computed with a *decision tree* regression model…
+
+``` r
+ppsr::score(iris, x = 'Sepal.Length', y = 'Petal.Length', algorithm = 'tree')[['pps']]
+#> [1] 0.6160836
+```
+
+…will differ from the PPS computed with a *simple linear regression*
+model.
+
+``` r
+ppsr::score(iris, x = 'Sepal.Length', y = 'Petal.Length', algorithm = 'glm')[['pps']]
+#> [1] 0.5441131
+```
 
 ## Usage
 
-The `ppsr` package has four main functions that compute PPS:
+The `ppsr` package has four main functions to compute PPS:
 
-  - `score()` - which computes an x-y PPS
-  - `score_predictors()` - which computes all X-y PPS
-  - `score_df()` - which computes all X-Y PPS
-  - `score_matrix()` - which computes all X-Y PPS, and shows them in a
-    matrix
+  - `score()` computes an x-y PPS
+  - `score_predictors()` computes all X-y PPS
+  - `score_df()` computes all X-Y PPS
+  - `score_matrix()` computes all X-Y PPS, and shows them in a matrix
 
-where `x` and `y` represent an individual feature/target, and `X` and
-`Y` represent all features/targets in a given dataset.
+where `x` and `y` represent an individual predictor/target, and `X` and
+`Y` represent all predictors/targets in a given dataset.
 
 Examples:
 
 ``` r
-ppsr::score(iris, x = 'Sepal.Length', y = 'Sepal.Width')
+ppsr::score(iris, x = 'Sepal.Length', y = 'Petal.Length')
 #> $x
 #> [1] "Sepal.Length"
 #> 
 #> $y
-#> [1] "Sepal.Width"
+#> [1] "Petal.Length"
 #> 
 #> $result_type
 #> [1] "predictive power score"
 #> 
 #> $pps
-#> [1] 0.06790301
+#> [1] 0.6160836
 #> 
 #> $metric
 #> [1] "MAE"
 #> 
 #> $baseline_score
-#> [1] 0.3372222
+#> [1] 1.571967
 #> 
 #> $model_score
-#> [1] 0.3184796
+#> [1] 0.5971445
 #> 
 #> $cv_folds
 #> [1] 5
@@ -120,6 +128,88 @@ ppsr::score_predictors(df = iris, y = 'Species')
 ```
 
 ``` r
+ppsr::score_df(df = iris)
+#>               x            y                       result_type        pps
+#> 1  Sepal.Length Sepal.Length predictor and target are the same 1.00000000
+#> 2   Sepal.Width Sepal.Length            predictive power score 0.04632352
+#> 3  Petal.Length Sepal.Length            predictive power score 0.54913985
+#> 4   Petal.Width Sepal.Length            predictive power score 0.41276679
+#> 5       Species Sepal.Length            predictive power score 0.40754872
+#> 6  Sepal.Length  Sepal.Width            predictive power score 0.06790301
+#> 7   Sepal.Width  Sepal.Width predictor and target are the same 1.00000000
+#> 8  Petal.Length  Sepal.Width            predictive power score 0.23769911
+#> 9   Petal.Width  Sepal.Width            predictive power score 0.21746588
+#> 10      Species  Sepal.Width            predictive power score 0.20128762
+#> 11 Sepal.Length Petal.Length            predictive power score 0.61608360
+#> 12  Sepal.Width Petal.Length            predictive power score 0.24263851
+#> 13 Petal.Length Petal.Length predictor and target are the same 1.00000000
+#> 14  Petal.Width Petal.Length            predictive power score 0.79175121
+#> 15      Species Petal.Length            predictive power score 0.79049070
+#> 16 Sepal.Length  Petal.Width            predictive power score 0.48735314
+#> 17  Sepal.Width  Petal.Width            predictive power score 0.20124105
+#> 18 Petal.Length  Petal.Width            predictive power score 0.74378445
+#> 19  Petal.Width  Petal.Width predictor and target are the same 1.00000000
+#> 20      Species  Petal.Width            predictive power score 0.75611126
+#> 21 Sepal.Length      Species            predictive power score 0.55918638
+#> 22  Sepal.Width      Species            predictive power score 0.31344008
+#> 23 Petal.Length      Species            predictive power score 0.91675800
+#> 24  Petal.Width      Species            predictive power score 0.93985320
+#> 25      Species      Species predictor and target are the same 1.00000000
+#>         metric baseline_score model_score cv_folds seed algorithm
+#> 1         <NA>             NA          NA       NA   NA      <NA>
+#> 2          MAE      0.6893222   0.6620058        5    1      tree
+#> 3          MAE      0.6893222   0.3100867        5    1      tree
+#> 4          MAE      0.6893222   0.4040123        5    1      tree
+#> 5          MAE      0.6893222   0.4076661        5    1      tree
+#> 6          MAE      0.3372222   0.3184796        5    1      tree
+#> 7         <NA>             NA          NA       NA   NA      <NA>
+#> 8          MAE      0.3372222   0.2564258        5    1      tree
+#> 9          MAE      0.3372222   0.2631636        5    1      tree
+#> 10         MAE      0.3372222   0.2677963        5    1      tree
+#> 11         MAE      1.5719667   0.5971445        5    1      tree
+#> 12         MAE      1.5719667   1.1945031        5    1      tree
+#> 13        <NA>             NA          NA       NA   NA      <NA>
+#> 14         MAE      1.5719667   0.3265152        5    1      tree
+#> 15         MAE      1.5719667   0.3280552        5    1      tree
+#> 16         MAE      0.6623556   0.3377682        5    1      tree
+#> 17         MAE      0.6623556   0.5315834        5    1      tree
+#> 18         MAE      0.6623556   0.1684906        5    1      tree
+#> 19        <NA>             NA          NA       NA   NA      <NA>
+#> 20         MAE      0.6623556   0.1608119        5    1      tree
+#> 21 F1_weighted      0.3176487   0.7028029        5    1      tree
+#> 22 F1_weighted      0.3176487   0.5377587        5    1      tree
+#> 23 F1_weighted      0.3176487   0.9404972        5    1      tree
+#> 24 F1_weighted      0.3176487   0.9599148        5    1      tree
+#> 25        <NA>             NA          NA       NA   NA      <NA>
+#>        model_type
+#> 1            <NA>
+#> 2      regression
+#> 3      regression
+#> 4      regression
+#> 5      regression
+#> 6      regression
+#> 7            <NA>
+#> 8      regression
+#> 9      regression
+#> 10     regression
+#> 11     regression
+#> 12     regression
+#> 13           <NA>
+#> 14     regression
+#> 15     regression
+#> 16     regression
+#> 17     regression
+#> 18     regression
+#> 19           <NA>
+#> 20     regression
+#> 21 classification
+#> 22 classification
+#> 23 classification
+#> 24 classification
+#> 25           <NA>
+```
+
+``` r
 ppsr::score_matrix(df = iris)
 #>              Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
 #> Sepal.Length   1.00000000  0.04632352    0.5491398   0.4127668 0.4075487
@@ -129,17 +219,32 @@ ppsr::score_matrix(df = iris)
 #> Species        0.55918638  0.31344008    0.9167580   0.9398532 1.0000000
 ```
 
+Currently, the `ppsr` package computes PPS by default using…
+
+  - the default decision tree implementation of the `rpart` package,
+    wrapped by `parsnip`
+  - *weighted F1* scores to evaluate classification models, and *MAE* to
+    evaluate regression models
+  - 5 cross-validations
+
+You can call the `available_algorithms()` and
+`available_evaluation_metrics()` functions to see what alternative
+settings are supported.
+
+Note that the calculated PPS reflects the **out-of-sample** predictive
+validity when more than a single cross-validation is used.
+
 ## Visualizing PPS
 
 Subsequently, there are three main functions that wrap around these
 computational functions to help you visualize your PPS using `ggplot2`:
 
-  - `visualize_pps()` - producing a barplot of all X-y PPS, or a heatmap
-    of all X-Y PPS
-  - `visualize_correlations()` - producing a heatmap of all X-Y
+  - `visualize_pps()` produces a barplot of all X-y PPS, or a heatmap of
+    all X-Y PPS
+  - `visualize_correlations()` produces a heatmap of all X-Y
     correlations
-  - `visualize_both()` - produces two heatmaps of the PPS and
-    correlations of all X-Y PPS side-by-side
+  - `visualize_both()` produces the two heatmaps of all X-Y PPS and
+    correlations side-by-side
 
 Examples:
 
@@ -151,7 +256,7 @@ ppsr::visualize_pps(df = iris, y = 'Species')
 ![](man/figures/README-PPS-barplot-1.png)<!-- -->
 
 ``` r
-# If you do not specify `y`, you get a PPS matrix visualized as a heatmap 
+# If you do **not** specify the target variable (y), you get a PPS matrix visualized as a heatmap 
 ppsr::visualize_pps(df = iris)
 ```
 
@@ -173,8 +278,8 @@ You can change the colors of the visualizations using the functions
 arguments. There are also arguments to change the color of the text
 scores.
 
-Furthermore, the functions return `ggplot2` objects, so you can easily
-change the theme and other settings.
+Furthermore, the functions return `ggplot2` objects, so that you can
+easily change the theme and other settings.
 
 ``` r
 ppsr::visualize_pps(df = iris,
@@ -182,23 +287,30 @@ ppsr::visualize_pps(df = iris,
                     color_value_low = 'yellow',
                     color_text = 'black') +
   ggplot2::theme_classic() +
-  ggplot2::labs(title = 'Add your own title', caption = 'Or a nice caption')
+  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "lightgrey")) +
+  ggplot2::theme(title = ggplot2::element_text(size = 15)) +
+  ggplot2::labs(title = 'Add your own title', 
+                subtitle = 'Maybe an informative subtitle',
+                caption = 'And a nice caption',
+                x = 'You could call this\nthe independent variable\nas well')
 ```
 
 ![](man/figures/README-custom-plot-1.png)<!-- -->
 
 ## Parallelization
 
-The number of predictive models that need to be built to fill a PPS
-matrix of a dataframe increase exponentially with every column in that
-dataframe.
+The number of predictive models that one needs to build in order to fill
+the PPS matrix belonging to a dataframe increases exponentially with
+every new column in that dataframe.
 
-For high dimensional datasets, it can thus takes a decent amount of time
-to generate the associated PPS matrix.
+For traditional correlation analyses, this is not a problem. Yet, with
+more computation-intensive algorithms, with many train-test splits, and
+with large or high-dimensional datasets, it can take a decent amount of
+time to build all the predictive models and derive their PPSs.
 
 One way to speed matters up is to use the `ppsr::score_predictors()`
-function and to focus on the predictability of a single target/dependent
-variable of interest.
+function and focus on predicting only the target/dependent variable you
+are most interested in.
 
 Yet, since version `0.0.1`, all `ppsr::score_*` and `pssr::visualize_*`
 functions now take in two arguments that facilitate parallel computing.
@@ -217,8 +329,72 @@ ppsr::score_df(df = mtcars, do_parallel = TRUE)
 ```
 
 ``` r
-ppsr::visualize_pps(df = iris, do_parallel = TRUE, n_cores = 3)
+ppsr::visualize_pps(df = iris, do_parallel = TRUE, n_cores = 2)
 ```
+
+## Interpreting PPS
+
+The PPS is a **normalized score** that ranges from 0 (no predictive
+power) to 1 (perfect predictive power).
+
+The normalization occurs by comparing how well we are able to predict
+the values of a *target* variable (`y`) using the values of a
+*predictor* variable (`x`), respective to two **benchmarks**: a perfect
+prediction, and a naive prediction
+
+The **perfect prediction** can be theoretically derived. A perfect
+regression model produces no error (=0.0), whereas a perfect
+classification model results in 100% accuracy, recall, et cetera (=1.0).
+
+The **naive prediction** is derived empirically. A naive regression
+model is simulated by predicting the mean `y` value for all
+observations. This is similar to how R-squared is calculated. A naive
+classification model is simulated by taking the best among two models:
+one predicting the modal `y` class, and one predicting random `y`
+classes for all observations.
+
+Whenever we train an “informed” model to predict `y` using `x`, we can
+assess how well it performs by comparing it to these two benchmarks.
+
+Suppose we train a regression model, and its mean average error (MAE) is
+0.10. Suppose the naive model resulted in an MAE of 0.40. We know the
+perfect model would produce no error, which means an MAE of 0.0.
+
+With these three scores, we can normalize the performance of our
+informed regression model by interpolating its score between the perfect
+and the naive benchmarks. In this case, our model’s performance lies
+about 1/4<sup>th</sup> of the way from the perfect model, and
+3/4<sup>ths</sup> of the way from the naive model. In other words, our
+model’s predictive power score is 75%: it produced 75% less error than
+the naive baseline, and was only 25% short of perfect predictions.
+
+Using such normalized scores for model performance allows us to easily
+interpret how much better our models are as compared to a naive
+baseline. Moreover, such normalized scores allow us to compare and
+contrast different modeling approaches, in terms of the algorithms, the
+target’s data type, the evaluation metrics, and any other settings used.
+
+## Considerations
+
+The main use of PPS is as a tool for data exploration. It trains an
+out-of-the-box model to assess the predictive relations in your dataset.
+However, this PPS is quite a “quick and dirty” approach.
+
+For example, it could be that you get many PPS’s of 0 with the default
+settings. A known issue is that the default decision tree often does not
+find valuable splits and reverts to predicting the mean `y` value found
+at its root. Here, it could help to try calculating PPS with different
+settings (e.g., `algorithm = 'glm'`).
+
+At other times, predictive relationships may rely on a combination of
+variables (i.e. interaction/moderation). These are not captured by the
+PPS calculations, which consider only univariate relations.
+
+In general, the PPS should not be considered more than an easy tool for
+finding starting points for further, in-depth analysis. Keep in mind
+that you can build much better predictive models than the default PPS
+functions if you tailor your modeling efforts to your specific data
+context.
 
 ## Open issues & development
 
@@ -228,9 +404,20 @@ please raise an issue or submit a pull request.
 
 On the developmental agenda are currently:
 
-  - Implementation of different modeling techniques / algorithms
+  - Implementation of different modeling techniques/algorithms
+  - Implementation of generalized linear models for multinomial
+    classification
   - Implementation of different model evaluation metrics
+  - Support for user-defined model evaluation metrics
   - Implementation of downsampling for large datasets
 
-Note that there’s also an unfinished [R implementation of the PPS
-package by 8080labs](https://github.com/8080labs/ppscoreR).
+## Attribution
+
+This R package was inspired by 8080labs’ Python package
+[`ppscore`](https://github.com/8080labs/ppscore).
+
+The same 8080labs also developed an earlier, unfinished [R
+implementation of PPS](https://github.com/8080labs/ppscoreR).
+
+Read more about the big ideas behind PPS in [this blog
+post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598).
