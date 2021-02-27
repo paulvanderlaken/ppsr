@@ -21,7 +21,7 @@ visualize_both(
 
 \item{color_value_negative}{color used for lower limit of gradient (high negative correlation)}
 
-\item{color_text}{color used for text, best to pick high contrast with \code{color_value_high}}
+\item{color_text}{string, hex value or color name used for text, best to pick high contrast with \code{color_value_high}}
 
 \item{include_missings}{bool, whether to include the variables without correlation values in the plot}
 
@@ -30,13 +30,13 @@ visualize_both(
 \item{...}{any arguments passed to \code{\link{score}}}
 }
 \value{
-grid with two ggplot2 heatmap visualizations
+a grob object, a grid with two ggplot2 heatmap visualizations
 }
 \description{
 Visualize the PPS & correlation matrices
 }
 \examples{
-\dontrun{visualize_both(iris)}
+\donttest{visualize_both(iris)}
 
-\dontrun{visualize_both(mtcars, do_parallel = TRUE)}
+\donttest{visualize_both(mtcars, do_parallel = TRUE, n_cores = 2)}
 }

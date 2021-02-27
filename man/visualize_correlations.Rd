@@ -27,7 +27,7 @@ visualize_correlations(
 \item{...}{arguments to pass to \code{stats::cor()}}
 }
 \value{
-ggplot2 heatmap visualization
+a ggplot object, a heatmap visualization
 }
 \description{
 Visualize the correlation matrix

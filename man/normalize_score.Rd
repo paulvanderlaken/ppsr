@@ -15,7 +15,7 @@ normalize_score(baseline_score, model_score, type)
 \item{type}{character, type of model}
 }
 \value{
-float, normalized score
+numeric vector of length one, normalized score
 }
 \description{
 Normalizes the original score compared to a naive baseline score

@@ -17,10 +17,10 @@ score_model(train, test, model, x, y, metric)
 
 \item{y}{character, column name of target variable}
 
-\item{metric}{character, name of evaluation metric being used, see \code{evaluation_functions()}}
+\item{metric}{character, name of evaluation metric being used, see \code{available_evaluation_metrics()}}
 }
 \value{
-float, evaluation score for predictions using naive model
+numeric vector of length one, evaluation score for predictions using naive model
 }
 \description{
 Calculates out-of-sample model performance of a statistical model

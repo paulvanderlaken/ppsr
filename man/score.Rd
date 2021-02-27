@@ -18,23 +18,35 @@ score(
 \arguments{
 \item{df}{data.frame containing columns for x and y}
 
-\item{x}{character, column name of predictor variable}
+\item{x}{string, column name of predictor variable}
 
-\item{y}{character, column name of target variable}
+\item{y}{string, column name of target variable}
 
-\item{algorithm}{character}
+\item{algorithm}{string, see \code{available_algorithms()}}
 
 \item{metrics}{named list of \code{eval_*} functions used for
-regression and classification problems}
+regression and classification problems, see \code{available_evaluation_metrics()}}
 
 \item{cv_folds}{float, number of cross-validation folds}
 
 \item{seed}{float, seed to ensure reproducibility/stability}
 
-\item{verbose}{bool, whether to print notifications}
+\item{verbose}{boolean, whether to print notifications}
 }
 \value{
-float,  representing predictive power score
+a named list, potentially containing \describe{
+    \item{x}{the name of the predictor variable}
+    \item{y}{the name of the target variable}
+    \item{result_type}{text showing how to interpret the resulting score}
+    \item{pps}{the predictive power score}
+    \item{metric}{the evaluation metric used to compute the PPS}
+    \item{baseline_score}{the score of a naive model on the evaluation metric}
+    \item{model_score}{the score of the predictive model on the evaluation metric}
+    \item{cv_folds}{how many cross-validation folds were used}
+    \item{seed}{the seed that was set}
+    \item{algorithm}{text shwoing what algorithm was used}
+    \item{model_type}{text showing whether classification or regression was used}
+}
 }
 \description{
 Calculate predictive power score for x on y

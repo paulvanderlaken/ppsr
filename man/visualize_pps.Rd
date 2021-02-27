@@ -10,6 +10,7 @@ visualize_pps(
   color_value_high = "#08306B",
   color_value_low = "#FFFFFF",
   color_text = "#FFFFFF",
+  include_target = TRUE,
   ...
 )
 }
@@ -19,16 +20,18 @@ visualize_pps(
 \item{y}{string, column name of target variable,
 can be left \code{NULL} to visualize all X-Y PPS}
 
-\item{color_value_high}{color used for upper limit of PPS gradient (high PPS)}
+\item{color_value_high}{string, hex value or color name used for upper limit of PPS gradient (high PPS)}
 
-\item{color_value_low}{color used for lower limit of PPS gradient (low PPS)}
+\item{color_value_low}{string, hex value or color name used for lower limit of PPS gradient (low PPS)}
 
-\item{color_text}{color used for text, best to pick high contrast with \code{color_value_high}}
+\item{color_text}{string, hex value or color name used for text, best to pick high contrast with \code{color_value_high}}
+
+\item{include_target}{boolean, whether to include the target variable in the barplot}
 
 \item{...}{any arguments passed to \code{\link{score}}}
 }
 \value{
-ggplot2 vertical barplot or heatmap visualization
+a ggplot object, a vertical barplot or heatmap visualization
 }
 \description{
 If \code{y} is specified, \code{visualize_pps} returns a barplot of the PPS of
@@ -39,7 +42,7 @@ of the PPS for all X-Y combinations in a dataframe.
 \examples{
 visualize_pps(iris, y = 'Species')
 
-\dontrun{visualize_pps(iris)}
+\donttest{visualize_pps(iris)}
 
-\dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
+\donttest{visualize_pps(mtcars, do_parallel = TRUE, n_cores = 2)}
 }
