@@ -19,9 +19,9 @@ Config/testthat/edition: 3
 Config/testthat/parallel: true
 RoxygenNote: 7.1.1
 Imports: 
-    ggplot2 (>= 3.3.2),
-    parsnip (>= 0.1.4),
+    ggplot2 (>= 3.3.3),
+    parsnip (>= 0.1.5),
     rpart (>= 4.1.15),
-    withr (>= 2.3.0),
+    withr (>= 2.4.1),
     gridExtra (>= 2.3),
     parallel (>= 4.0.3)
