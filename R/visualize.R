@@ -27,24 +27,26 @@ correlation_breaks = function() {
 #' @inheritParams score_predictors
 #' @param y string, column name of target variable,
 #'     can be left \code{NULL} to visualize all X-Y PPS
-#' @param color_value_high color used for upper limit of PPS gradient (high PPS)
-#' @param color_value_low color used for lower limit of PPS gradient (low PPS)
-#' @param color_text color used for text, best to pick high contrast with \code{color_value_high}
+#' @param color_value_high string, hex value or color name used for upper limit of PPS gradient (high PPS)
+#' @param color_value_low string, hex value or color name used for lower limit of PPS gradient (low PPS)
+#' @param color_text string, hex value or color name used for text, best to pick high contrast with \code{color_value_high}
+#' @param include_target boolean, whether to include the target variable in the barplot
 #'
-#' @return ggplot2 vertical barplot or heatmap visualization
+#' @return a ggplot object, a vertical barplot or heatmap visualization
 #' @export
 #'
 #' @examples
 #' visualize_pps(iris, y = 'Species')
 #'
-#' \dontrun{visualize_pps(iris)}
+#' \donttest{visualize_pps(iris)}
 #'
-#' \dontrun{visualize_pps(mtcars, do_parallel = TRUE)}
+#' \donttest{visualize_pps(mtcars, do_parallel = TRUE, n_cores = 2)}
 visualize_pps = function(df,
                          y = NULL,
                          color_value_high = '#08306B',
                          color_value_low = '#FFFFFF',
                          color_text = '#FFFFFF',
+                         include_target = TRUE,
                          ...) {
   if (is.null(y)) {
     p = ggplot2::ggplot(score_df(df, ...), ggplot2::aes(x = x, y = y)) +
@@ -53,7 +55,11 @@ visualize_pps = function(df,
       ggplot2::scale_x_discrete(limits = colnames(df), name = 'feature') +
       ggplot2::scale_y_discrete(limits = rev(colnames(df)), name = 'target')
   } else {
-    p = ggplot2::ggplot(score_predictors(df, y, ...),
+    res = score_predictors(df, y, ...)
+    if (!include_target) {
+      res = res[res$x != y, ]
+    }
+    p = ggplot2::ggplot(res,
                         ggplot2::aes(x = pps, y = stats::reorder(x, pps))) +
       ggplot2::geom_col(ggplot2::aes(fill = pps)) +
       ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), hjust = 0) +
@@ -78,7 +84,7 @@ visualize_pps = function(df,
 #' @param color_text color used for text, best to pick high contrast with \code{color_value_high}
 #' @param include_missings bool, whether to include the variables without correlation values in the plot
 #'
-#' @return ggplot2 heatmap visualization
+#' @return a ggplot object, a heatmap visualization
 #' @export
 #'
 #' @examples
@@ -120,13 +126,13 @@ visualize_correlations = function(df,
 #' @inheritParams visualize_correlations
 #' @param nrow numeric, number of rows, either 1 or 2
 #'
-#' @return grid with two ggplot2 heatmap visualizations
+#' @return a grob object, a grid with two ggplot2 heatmap visualizations
 #' @export
 #'
 #' @examples
-#' \dontrun{visualize_both(iris)}
+#' \donttest{visualize_both(iris)}
 #'
-#' \dontrun{visualize_both(mtcars, do_parallel = TRUE)}
+#' \donttest{visualize_both(mtcars, do_parallel = TRUE, n_cores = 2)}
 visualize_both = function(df,
                           color_value_positive = '#08306B',
                           color_value_negative = '#8b0000',
