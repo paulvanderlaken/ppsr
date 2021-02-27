@@ -52,8 +52,9 @@ visualize_pps = function(df,
     p = ggplot2::ggplot(score_df(df, ...), ggplot2::aes(x = x, y = y)) +
       ggplot2::geom_tile(ggplot2::aes(fill = pps)) +
       ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), col = color_text) +
-      ggplot2::scale_x_discrete(limits = colnames(df), name = 'feature') +
-      ggplot2::scale_y_discrete(limits = rev(colnames(df)), name = 'target')
+      ggplot2::scale_x_discrete(limits = colnames(df)) +
+      ggplot2::scale_y_discrete(limits = rev(colnames(df))) +
+      ggplot2::labs(x = 'predictor', y = 'target')
   } else {
     res = score_predictors(df, y, ...)
     if (!include_target) {
@@ -64,7 +65,7 @@ visualize_pps = function(df,
       ggplot2::geom_col(ggplot2::aes(fill = pps)) +
       ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), hjust = 0) +
       ggplot2::scale_x_continuous(breaks = pps_breaks(), limits = c(0, 1.05)) +
-      ggplot2::scale_y_discrete(name = 'feature')
+      ggplot2::labs(y = 'feature')
   }
   p = p +
     ggplot2::scale_fill_gradient(low = color_value_low, high = color_value_high,
@@ -107,8 +108,8 @@ visualize_correlations = function(df,
   p = ggplot2::ggplot(df_correlations, ggplot2::aes(x = x, y = y)) +
     ggplot2::geom_tile(ggplot2::aes(fill = correlation)) +
     ggplot2::geom_text(ggplot2::aes(label = format_score(correlation)), col = color_text) +
-    ggplot2::scale_x_discrete(limits = cnames, name = 'x') +
-    ggplot2::scale_y_discrete(limits = rev(cnames), name = 'y') +
+    ggplot2::scale_x_discrete(limits = cnames) +
+    ggplot2::scale_y_discrete(limits = rev(cnames)) +
     ggplot2::scale_fill_gradient2(low = color_value_negative,
                                   mid = '#FFFFFF',
                                   high = color_value_positive,
