@@ -80,8 +80,19 @@ score = function(df,
   }
 
   # force binary numerics, boolean/logicals, and characters/texts to factor
-  if (is_binary_numeric(df[[y]]) | is.logical(df[[y]]) | is.character(df[[y]])) {
-    if(verbose) cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to factor.\n')
+  if (algorithm == 'glm') {
+    if (is.logical(df[[y]])) {
+      if(verbose) {
+        cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to integer.\n')
+      }
+      df[[y]] = as.integer(df[[y]])
+    } else if (is.character(df[[y]])) {
+      return(generate_invalid_report(x, y, 'algorithm does not support multinomial classification', NA))
+    }
+  } else if (is_binary_numeric(df[[y]]) | is.logical(df[[y]]) | is.character(df[[y]])) {
+    if(verbose) {
+      cat('Note:', y, 'was forced from', typeof(df[[y]]), 'to factor.\n')
+    }
     df[[y]] = as.factor(df[[y]])
   }
 
@@ -93,13 +104,12 @@ score = function(df,
     stop('There are more cv_folds than unique ', x, '-', y, ' values. Pick a smaller number of folds.')
   }
   n_per_fold = length(df[[y]]) / cv_folds
-  if (n_per_fold < 10) {
+  fold_size_warning_threshold = 10
+  if (n_per_fold < fold_size_warning_threshold) {
     warning('There are on average only ', n_per_fold, ' observations in each test-set',
             ' for the ', x, '-', y, ' relationship.\n',
             'Model performance will be highly instable. Fewer cv_folds are advised.')
   }
-
-
 
   # set seed to ensure stability of results
   set.seed(seed)
