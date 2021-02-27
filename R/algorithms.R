@@ -8,15 +8,10 @@ engine_tree = function(type) {
 engine_glm = function(type) {
   if (type == 'regression') {
     return(parsnip::set_engine(parsnip::linear_reg(), "lm"))
-  } else  if (type == 'classification') {
+  } else if (type == 'classification') {
     return(parsnip::set_engine(parsnip::logistic_reg(), "glm"))
   }
 }
-
-engine_gbm = function(type) {
-  return(parsnip::set_engine(parsnip::boost_tree(), "xgboost"))
-}
-
 
 #' Lists all algorithms currently supported
 #'
@@ -28,7 +23,6 @@ engine_gbm = function(type) {
 available_algorithms = function() {
   return(list(
     'tree' = engine_tree,
-    'glm' = engine_glm,
-    'gbm' = engine_gbm
+    'glm' = engine_glm
   ))
 }
