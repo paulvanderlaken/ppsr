@@ -107,3 +107,37 @@ test_that("Scoring functions work as expected", {
   expect_true(is.data.frame(result_df))
   expect_equal(nrow(result_df), ncol(df) ^ 2)
 })
+
+
+
+test_that("Algorithsm work as expected", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x)),
+    y2 = x + rnorm(n = n)
+  )
+  for (algo in names(available_algorithms())){
+    expect_true(is.list(score(df, 'x', 'y1', algorithm = algo)))
+    expect_true(is.list(score(df, 'x', 'y2', algorithm = algo)))
+  }
+})
+
+
+test_that("Evaluation metrics work as expected", {
+  set.seed(1)
+  n = 100
+  x = rnorm(n = n)
+  df = data.frame(
+    x = x,
+    y1 = as.integer(seq_along(x)),
+    y2 = x + rnorm(n = n)
+  )
+  for (eval in names(available_evaluation_metrics())){
+    metrics = list(regression = eval, classification = eval)
+    expect_true(is.list(score(df, 'x', 'y1', metrics = metrics)))
+    expect_true(is.list(score(df, 'x', 'y2', metrics = metrics)))
+  }
+})
