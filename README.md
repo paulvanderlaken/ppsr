@@ -6,6 +6,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/paulvanderlaken/ppsr/workflows/R-CMD-check/badge.svg)](https://github.com/paulvanderlaken/ppsr/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ppsr)](https://cran.r-project.org/package=ppsr)
+[![CRAN\_Downloads\_Total](http://cranlogs.r-pkg.org/badges/grand-total/ppsr)](https://cran.r-project.org/package=ppsr)
+
 <!-- badges: end -->
 
 `ppsr` is the R implementation of the **Predictive Power Score** (PPS).
@@ -21,12 +25,20 @@ post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-
 
 ## Installation
 
-You can install the development version of `ppsr` using the following R
-code:
+You can install the latest stable version of `ppsr` from CRAN:
+
+``` r
+# You can get the lastest stable version from CRAN
+install.packages('ppsr')
+```
+
+The most recent developmental version of `ppsr` can be installed using
+the following R code:
 
 ``` r
 # You can get the development version from GitHub:
-# install.packages('devtools')
+# First install devtools if needed
+# install.packages('devtools') 
 devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 ```
 
