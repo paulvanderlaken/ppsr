@@ -245,7 +245,7 @@ score_predictors = function(df, y, ..., do_parallel = FALSE, n_cores = -1) {
       n_cores = parallel::detectCores() - 1
     }
     cl = parallel::makeCluster(n_cores)
-    parallel::clusterExport(cl, varlist = as.list(.all_ppsr_functions()))
+    parallel::clusterEvalQ(cl, {library(ppsr)})
     scores = parallel::clusterApply(cl, colnames(df), temp_score)
     parallel::stopCluster(cl)
   } else {
@@ -294,7 +294,7 @@ score_df = function(df, ..., do_parallel = FALSE, n_cores = -1) {
       n_cores = parallel::detectCores() - 1
     }
     cl = parallel::makeCluster(n_cores)
-    parallel::clusterExport(cl, varlist = as.list(.all_ppsr_functions()))
+    parallel::clusterEvalQ(cl, {library(ppsr)})
     scores = parallel::clusterApply(cl, seq_len(nrow(param_grid)), temp_score)
     parallel::stopCluster(cl)
   } else {
