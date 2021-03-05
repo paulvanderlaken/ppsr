@@ -1,3 +1,12 @@
+# ppsr 0.0.2.1
+
+## Major changes:
+* Update to ggplot2 theme, removed irrelevant panel grid lines
+
+## Bug fixes:
+* #19 Parallelization should not now work. Library call to package instead of exporting functions by name.
+
+
 # ppsr 0.0.2
 
 ## Major changes:
