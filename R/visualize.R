@@ -11,10 +11,26 @@ pps_breaks = function() {
   return(seq(0, 1, pps_break_interval()))
 }
 
+pps_minor_breaks = function() {
+  minor_breaks = seq(0, 1, pps_break_interval() / 2)
+  return(setdiff(minor_breaks, pps_breaks()))
+}
+
 correlation_breaks = function() {
   # range twice as long so interval twice as long
   return(seq(-1, 1, pps_break_interval() * 2))
 }
+
+theme_ppsr = function(){
+  ggplot2::theme_minimal() +
+    ggplot2::theme(
+      panel.grid.major = ggplot2::element_blank(),
+      panel.grid.minor = ggplot2::element_blank(),
+      NULL
+    )
+}
+
+ggplot2::theme_set(theme_ppsr())
 
 
 #' Visualize the Predictive Power scores of the entire dataframe, or given a target
@@ -64,14 +80,16 @@ visualize_pps = function(df,
                         ggplot2::aes(x = pps, y = stats::reorder(x, pps))) +
       ggplot2::geom_col(ggplot2::aes(fill = pps)) +
       ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), hjust = 0) +
-      ggplot2::scale_x_continuous(breaks = pps_breaks(), limits = c(0, 1.05)) +
-      ggplot2::labs(y = 'feature')
+      ggplot2::scale_x_continuous(breaks = pps_breaks(), minor_breaks = pps_minor_breaks(), limits = c(0, 1.05)) +
+      ggplot2::labs(y = 'feature') +
+      ggplot2::theme(panel.grid.major.x = ggplot2::element_line(colour = "grey92"),
+                     panel.grid.minor.x = ggplot2::element_line(size = ggplot2::rel(0.5), colour = "grey92")
+      )
   }
   p = p +
     ggplot2::scale_fill_gradient(low = color_value_low, high = color_value_high,
                                  limits = range(pps_breaks()), breaks = pps_breaks()) +
-    ggplot2::expand_limits(fill = range(pps_breaks())) +
-    ggplot2::theme_minimal()
+    ggplot2::expand_limits(fill = range(pps_breaks()))
   return(p)
 }
 
@@ -116,7 +134,7 @@ visualize_correlations = function(df,
                                   limits = range(correlation_breaks()),
                                   breaks = correlation_breaks()) +
     ggplot2::expand_limits(fill = range(correlation_breaks())) +
-    ggplot2::theme_minimal()
+    theme_ppsr()
   return(p)
 }
 

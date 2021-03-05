@@ -18,7 +18,3 @@ fill_blanks_in_list = function(ll) {
   }
   return(ll)
 }
-
-.all_ppsr_functions = function() {
-  return(ls("package:ppsr"))
-}

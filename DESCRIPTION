@@ -1,15 +1,15 @@
 Package: ppsr
 Type: Package
 Title: Predictive Power Score
-Version: 0.0.2
+Version: 0.0.2.1
 Authors@R: 
     person("Paul", "van der Laken", email = "paulvanderlaken@gmail.com", role = c("aut", "cre"))
-Description: The PPS is an asymmetric, data-type-agnostic score that can detect 
-    linear or non-linear relationships between two columns. The score ranges 
-    from 0 (no predictive power) to 1 (perfect predictive power). It can be useful
-    for data exploration purposes, in the same way correlation analysis is.
-    For more information on PPS, see Wetschoreck (2020) <https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598> 
-    or github <https://github.com/paulvanderlaken/ppsr>.
+Description: The Predictive Power Score (PPS) is an asymmetric, data-type-agnostic score 
+    that can detect linear or non-linear relationships between two variables. 
+    The score ranges from 0 (no predictive power) to 1 (perfect predictive power). 
+    PPS can be useful for data exploration purposes, in the same way correlation analysis is.
+    For more information on PPS, see [Wetschoreck (2020)](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-power-score-3d90808b9598)
+    or the [github repository](https://github.com/paulvanderlaken/ppsr).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
