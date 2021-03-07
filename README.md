@@ -32,13 +32,15 @@ You can install the latest stable version of `ppsr` from CRAN:
 install.packages('ppsr')
 ```
 
-The most recent developmental version of `ppsr` can be installed using
-the following R code:
+Not all recent features and bugfixes may be included in the CRAN
+release.
+
+Instead, you might want to download the most recent developmental
+version of `ppsr` from Github:
 
 ``` r
 # You can get the development version from GitHub:
-# First install devtools if needed
-# install.packages('devtools') 
+# install.packages('devtools') # Install devtools if needed
 devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 ```
 
@@ -85,7 +87,9 @@ The `ppsr` package has four main functions to compute PPS:
 where `x` and `y` represent an individual predictor/target, and `X` and
 `Y` represent all predictors/targets in a given dataset.
 
-Examples:
+### Examples:
+
+`score()` computes the PPS for a single target and predictor
 
 ``` r
 ppsr::score(iris, x = 'Sepal.Length', y = 'Petal.Length')
@@ -123,6 +127,9 @@ ppsr::score(iris, x = 'Sepal.Length', y = 'Petal.Length')
 #> [1] "regression"
 ```
 
+`score_predictors()` computes all PPSs for a single target using all
+predictors in a dataframe
+
 ``` r
 ppsr::score_predictors(df = iris, y = 'Species')
 #>              x       y                       result_type       pps      metric
@@ -138,6 +145,9 @@ ppsr::score_predictors(df = iris, y = 'Species')
 #> 4      0.3176487   0.9599148        5    1      tree classification
 #> 5             NA          NA       NA   NA      <NA>           <NA>
 ```
+
+`score_df()` computes all PPSs for every target-predictor combination in
+a dataframe
 
 ``` r
 ppsr::score_df(df = iris)
@@ -221,6 +231,10 @@ ppsr::score_df(df = iris)
 #> 25           <NA>
 ```
 
+`score_df()` computes all PPSs for every target-predictor combination in
+a dataframe, but returns only the scores arranged in a neat matrix, like
+the familiar correlation matrix
+
 ``` r
 ppsr::score_matrix(df = iris)
 #>              Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
@@ -244,7 +258,10 @@ You can call the `available_algorithms()` and
 settings are supported.
 
 Note that the calculated PPS reflects the **out-of-sample** predictive
-validity when more than a single cross-validation is used.
+validity when more than a single cross-validation is used. If you prefer
+to look at in-sample scores, you can set `cv_folds = 1`. Note that in
+such cases overfitting can become an issue, particularly with the more
+flexible algorithms.
 
 ## Visualizing PPS
 
@@ -258,27 +275,37 @@ computational functions to help you visualize your PPS using `ggplot2`:
   - `visualize_both()` produces the two heatmaps of all X-Y PPS and
     correlations side-by-side
 
-Examples:
+### Examples:
+
+If you specify a target variable (`y`) in `visualize_pps()`, you get a
+barplot of its predictors.
 
 ``` r
-# If you specify the target variable (y), you get a barplot of its predictors
 ppsr::visualize_pps(df = iris, y = 'Species')
 ```
 
 ![](man/figures/README-PPS-barplot-1.png)<!-- -->
 
+If you do not specify a target variable in `visualize_pps()`, you get
+the PPS matrix visualized as a heatmap.
+
 ``` r
-# If you do **not** specify the target variable (y), you get a PPS matrix visualized as a heatmap 
 ppsr::visualize_pps(df = iris)
 ```
 
 ![](man/figures/README-PPS-heatmap-1.png)<!-- -->
+
+Some users might find it useful to look at a correlation matrix for
+comparison.
 
 ``` r
 ppsr::visualize_correlations(df = iris)
 ```
 
 ![](man/figures/README-correlation-heatmap-1.png)<!-- -->
+
+With `visualize_both` you generate the PPS and correlation matrices
+side-by-side, for easy comparison.
 
 ``` r
 ppsr::visualize_both(df = iris)
@@ -303,7 +330,7 @@ ppsr::visualize_pps(df = iris,
   ggplot2::theme(title = ggplot2::element_text(size = 15)) +
   ggplot2::labs(title = 'Add your own title', 
                 subtitle = 'Maybe an informative subtitle',
-                caption = 'And a nice caption',
+                caption = 'Did you know ggplot2 includes captions?',
                 x = 'You could call this\nthe independent variable\nas well')
 ```
 
@@ -358,10 +385,10 @@ The **perfect prediction** can be theoretically derived. A perfect
 regression model produces no error (=0.0), whereas a perfect
 classification model results in 100% accuracy, recall, et cetera (=1.0).
 
-The **naive prediction** is derived empirically. A naive regression
+The **naive prediction** is derived empirically. A naive *regression*
 model is simulated by predicting the mean `y` value for all
 observations. This is similar to how R-squared is calculated. A naive
-classification model is simulated by taking the best among two models:
+*classification* model is simulated by taking the best among two models:
 one predicting the modal `y` class, and one predicting random `y`
 classes for all observations.
 
@@ -388,24 +415,37 @@ target’s data type, the evaluation metrics, and any other settings used.
 
 ## Considerations
 
-The main use of PPS is as a tool for data exploration. It trains an
-out-of-the-box model to assess the predictive relations in your dataset.
-However, this PPS is quite a “quick and dirty” approach.
+The main use of PPS is as a tool for data exploration. It trains
+out-of-the-box machine learning models to assess the predictive
+relations in your dataset.
 
-For example, it could be that you get many PPS’s of 0 with the default
-settings. A known issue is that the default decision tree often does not
-find valuable splits and reverts to predicting the mean `y` value found
-at its root. Here, it could help to try calculating PPS with different
-settings (e.g., `algorithm = 'glm'`).
+However, this PPS is quite a “quick and dirty” approach. The trained
+models are not at all tailored to your specific
+regression/classification problem. For example, it could be that you get
+many PPSs of 0 with the default settings. A known issue is that the
+default decision tree often does not find valuable splits and reverts to
+predicting the mean `y` value found at its root. Here, it could help to
+try calculating PPS with different settings (e.g., `algorithm = 'glm'`).
 
 At other times, predictive relationships may rely on a combination of
 variables (i.e. interaction/moderation). These are not captured by the
-PPS calculations, which consider only univariate relations.
+PPS calculations, which consider only univariate relations. PPS is
+simply not suited for capturing such complexities. In these cases, it
+might be more interesting to train models on all your features
+simultaneously and turn to concepts like [feature/variable
+importance](https://topepo.github.io/caret/variable-importance.html),
+[partial
+dependency](https://christophm.github.io/interpretable-ml-book/pdp.html),
+[conditional
+expectations](https://christophm.github.io/interpretable-ml-book/ice.html),
+[accumulated local
+effects](https://christophm.github.io/interpretable-ml-book/ale.html),
+and others.
 
-In general, the PPS should not be considered more than an easy tool for
-finding starting points for further, in-depth analysis. Keep in mind
-that you can build much better predictive models than the default PPS
-functions if you tailor your modeling efforts to your specific data
+In general, the PPS should not be considered more than a fast and easy
+tool to finding starting points for further, in-depth analysis. Keep in
+mind that you can build much better predictive models than the default
+PPS functions if you tailor your modeling efforts to your specific data
 context.
 
 ## Open issues & development
@@ -419,6 +459,7 @@ On the developmental agenda are currently:
   - Implementation of different modeling techniques/algorithms
   - Implementation of generalized linear models for multinomial
     classification
+  - Implement passing/setting of parameters for models
   - Implementation of different model evaluation metrics
   - Support for user-defined model evaluation metrics
   - Implementation of downsampling for large datasets
