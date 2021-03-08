@@ -41,7 +41,6 @@ You can read more about the (dis)advantages of using PPS in [this blog post](htt
 You can install the latest stable version of `ppsr` from CRAN:
 
 ```{r, eval = FALSE, echo = TRUE}
-# You can get the lastest stable version from CRAN
 install.packages('ppsr')
 ```
 
@@ -50,7 +49,6 @@ Not all recent features and bugfixes may be included in the CRAN release.
 Instead, you might want to download the most recent developmental version of `ppsr` from Github:
 
 ```{r, eval = FALSE, echo = TRUE}
-# You can get the development version from GitHub:
 # install.packages('devtools') # Install devtools if needed
 devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 ```
@@ -293,12 +291,12 @@ If you spot any bugs or potential improvements, please raise an issue or submit 
 
 On the developmental agenda are currently:
 
-* Implementation of different modeling techniques/algorithms
-* Implementation of generalized linear models for multinomial classification
-* Implement passing/setting of parameters for models
-* Implementation of different model evaluation metrics
+* Support for different modeling techniques/algorithms
+* Support for generalized linear models for multinomial classification
+* Passing/setting of parameters for models
+* Different model evaluation metrics
 * Support for user-defined model evaluation metrics
-* Implementation of downsampling for large datasets
+* Downsampling for large datasets
 
 
 ## Attribution

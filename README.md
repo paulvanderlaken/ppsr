@@ -28,7 +28,6 @@ post](https://towardsdatascience.com/rip-correlation-introducing-the-predictive-
 You can install the latest stable version of `ppsr` from CRAN:
 
 ``` r
-# You can get the lastest stable version from CRAN
 install.packages('ppsr')
 ```
 
@@ -39,7 +38,6 @@ Instead, you might want to download the most recent developmental
 version of `ppsr` from Github:
 
 ``` r
-# You can get the development version from GitHub:
 # install.packages('devtools') # Install devtools if needed
 devtools::install_github('https://github.com/paulvanderlaken/ppsr')
 ```
@@ -456,13 +454,12 @@ please raise an issue or submit a pull request.
 
 On the developmental agenda are currently:
 
-  - Implementation of different modeling techniques/algorithms
-  - Implementation of generalized linear models for multinomial
-    classification
-  - Implement passing/setting of parameters for models
-  - Implementation of different model evaluation metrics
+  - Support for different modeling techniques/algorithms
+  - Support for generalized linear models for multinomial classification
+  - Passing/setting of parameters for models
+  - Different model evaluation metrics
   - Support for user-defined model evaluation metrics
-  - Implementation of downsampling for large datasets
+  - Downsampling for large datasets
 
 ## Attribution
 
