@@ -8,7 +8,7 @@ Description: The Predictive Power Score (PPS) is an asymmetric, data-type-agnost
     that can detect linear or non-linear relationships between two variables. 
     The score ranges from 0 (no predictive power) to 1 (perfect predictive power). 
     PPS can be useful for data exploration purposes, in the same way correlation analysis is.
-    For more information on PPS, see https://github.com/paulvanderlaken/ppsr.
+    For more information on PPS, see <https://github.com/paulvanderlaken/ppsr>.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
