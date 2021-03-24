@@ -1,3 +1,8 @@
+# ppsr 0.0.3
+
+No major beyond those in version 0.0.2.1.
+
+
 # ppsr 0.0.2.1
 
 ## Major changes:

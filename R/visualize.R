@@ -30,8 +30,6 @@ theme_ppsr = function(){
     )
 }
 
-ggplot2::theme_set(theme_ppsr())
-
 
 #' Visualize the Predictive Power scores of the entire dataframe, or given a target
 #'
@@ -70,7 +68,8 @@ visualize_pps = function(df,
       ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), col = color_text) +
       ggplot2::scale_x_discrete(limits = colnames(df)) +
       ggplot2::scale_y_discrete(limits = rev(colnames(df))) +
-      ggplot2::labs(x = 'predictor', y = 'target')
+      ggplot2::labs(x = 'predictor', y = 'target') +
+      theme_ppsr()
   } else {
     res = score_predictors(df, y, ...)
     if (!include_target) {
@@ -82,6 +81,7 @@ visualize_pps = function(df,
       ggplot2::geom_text(ggplot2::aes(label = format_score(pps)), hjust = 0) +
       ggplot2::scale_x_continuous(breaks = pps_breaks(), minor_breaks = pps_minor_breaks(), limits = c(0, 1.05)) +
       ggplot2::labs(y = 'feature') +
+      theme_ppsr() +
       ggplot2::theme(panel.grid.major.x = ggplot2::element_line(colour = "grey92"),
                      panel.grid.minor.x = ggplot2::element_line(size = ggplot2::rel(0.5), colour = "grey92")
       )
