@@ -1,7 +1,7 @@
 Package: ppsr
 Type: Package
 Title: Predictive Power Score
-Version: 0.0.3.0
+Version: 0.0.4
 Authors@R: 
     person("Paul", "van der Laken", email = "paulvanderlaken@gmail.com", role = c("aut", "cre"))
 Description: The Predictive Power Score (PPS) is an asymmetric, data-type-agnostic score 
@@ -22,5 +22,4 @@ Imports:
     parsnip (>= 0.1.5),
     rpart (>= 4.1.15),
     withr (>= 2.4.1),
-    gridExtra (>= 2.3),
-    parallel (>= 4.0.3)
+    gridExtra (>= 2.3)
