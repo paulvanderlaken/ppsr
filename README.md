@@ -8,6 +8,7 @@
 [![R-CMD-check](https://github.com/paulvanderlaken/ppsr/workflows/R-CMD-check/badge.svg)](https://github.com/paulvanderlaken/ppsr/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ppsr)](https://cran.r-project.org/package=ppsr)
+[![DOI](https://zenodo.org/badge/324570501.svg)](https://zenodo.org/badge/latestdoi/324570501)
 [![CRAN\_Downloads\_Total](http://cranlogs.r-pkg.org/badges/grand-total/ppsr)](https://cran.r-project.org/package=ppsr)
 
 <!-- badges: end -->
