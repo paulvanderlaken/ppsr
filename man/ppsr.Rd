@@ -3,6 +3,7 @@
 \docType{package}
 \name{ppsr}
 \alias{ppsr}
+\alias{ppsr-package}
 \title{ppsr: An R implementation of the Predictive Power Score (PPS)}
 \description{
 The PPS is an asymmetric, data-type-agnostic score that can detect linear or

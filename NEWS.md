@@ -1,3 +1,7 @@
+# ppsr 0.0.5
+
+Fixed the package alias breaking due to `roxygen` dependency
+
 # ppsr 0.0.4
 
 Removed parallel package from imports to fix bug on MacOS #32

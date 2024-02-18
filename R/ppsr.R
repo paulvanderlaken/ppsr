@@ -7,4 +7,5 @@
 #'
 #' @docType package
 #' @name ppsr
+#' @aliases ppsr-package
 NULL

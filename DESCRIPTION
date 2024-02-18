@@ -1,9 +1,9 @@
 Package: ppsr
 Type: Package
 Title: Predictive Power Score
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
-    person("Paul", "van der Laken", email = "paulvanderlaken@gmail.com", role = c("aut", "cre"))
+    person("Paul", "van der Laken", email = "paulvanderlaken@gmail.com", role = c("aut", "cre", "cph"))
 Description: The Predictive Power Score (PPS) is an asymmetric, data-type-agnostic score 
     that can detect linear or non-linear relationships between two variables. 
     The score ranges from 0 (no predictive power) to 1 (perfect predictive power). 
@@ -16,7 +16,7 @@ Suggests:
     testthat (>= 2.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Imports: 
     ggplot2 (>= 3.3.3),
     parsnip (>= 0.1.5),
