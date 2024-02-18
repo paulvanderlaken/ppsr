@@ -40,7 +40,7 @@ You can read more about the (dis)advantages of using PPS in [this blog post](htt
 
 You can install the latest stable version of `ppsr` from CRAN:
 
-```{r, eval = FALSE, echo = TRUE}
+```{r, eval = TRUE, echo = TRUE}
 install.packages('ppsr')
 ```
 
